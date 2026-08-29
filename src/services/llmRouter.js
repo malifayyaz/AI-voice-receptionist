@@ -2,11 +2,11 @@ const Groq = require('groq-sdk');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 const logger = require('./logger');
 
-// Model pipeline definition
+// Model pipeline definition: Prioritized order with active, verified models
 const DEFAULT_PIPELINE = [
+  { provider: 'groq', model: 'openai/gpt-oss-120b' },
   { provider: 'groq', model: 'llama-3.3-70b-versatile' },
   { provider: 'groq', model: 'llama-3.1-70b-versatile' },
-  { provider: 'groq', model: 'openai/gpt-oss-120b' },
   { provider: 'gemini', model: 'gemini-3.6-flash' },
   { provider: 'gemini', model: 'gemini-2.0-flash' }
 ];
@@ -57,7 +57,6 @@ function shouldFallback(error) {
     return true;
   }
 
-  // Default: try fallback on any API execution failure to ensure voice caller never hangs up abruptly
   return true;
 }
 
@@ -70,24 +69,40 @@ function convertOpenAiMessagesToGemini(messages = []) {
 
   for (const msg of messages) {
     const role = msg.role;
-    const textContent = typeof msg.content === 'string' ? msg.content : JSON.stringify(msg.content || '');
+    const textContent = typeof msg.content === 'string'
+      ? msg.content
+      : (msg.content ? JSON.stringify(msg.content) : '');
 
     if (role === 'system') {
       systemInstruction = systemInstruction ? `${systemInstruction}\n${textContent}` : textContent;
     } else if (role === 'user') {
       geminiContents.push({
         role: 'user',
-        parts: [{ text: textContent }]
+        parts: [{ text: textContent || 'Hello' }]
       });
     } else if (role === 'assistant') {
+      const parts = [];
+      if (textContent) {
+        parts.push({ text: textContent });
+      }
+      if (msg.tool_calls) {
+        parts.push({ text: `[Tool Call requested: ${JSON.stringify(msg.tool_calls)}]` });
+      }
+      if (parts.length > 0) {
+        geminiContents.push({
+          role: 'model',
+          parts
+        });
+      }
+    } else if (role === 'tool' || role === 'function') {
       geminiContents.push({
-        role: 'model',
-        parts: [{ text: textContent }]
+        role: 'user',
+        parts: [{ text: `Tool result (${msg.name || msg.tool_call_id || 'function'}): ${textContent}` }]
       });
     }
   }
 
-  // Gemini contents must not be empty. If only system message was provided, add a placeholder user query.
+  // Gemini contents must not be empty
   if (geminiContents.length === 0) {
     geminiContents.push({
       role: 'user',
@@ -95,11 +110,12 @@ function convertOpenAiMessagesToGemini(messages = []) {
     });
   }
 
-  // Merge consecutive messages with the same role (Gemini requires alternating roles)
+  // Merge consecutive messages with the same role
   const mergedContents = [];
   for (const item of geminiContents) {
     if (mergedContents.length > 0 && mergedContents[mergedContents.length - 1].role === item.role) {
-      mergedContents[mergedContents.length - 1].parts[0].text += `\n${item.parts[0].text}`;
+      const lastPart = mergedContents[mergedContents.length - 1].parts[0];
+      lastPart.text = `${lastPart.text}\n${item.parts[0].text}`;
     } else {
       mergedContents.push({
         role: item.role,
@@ -122,7 +138,7 @@ function convertOpenAiMessagesToGemini(messages = []) {
 /**
  * Executes a chat completion via Groq
  */
-async function callGroq({ model, messages, temperature, max_tokens, stream = false }) {
+async function callGroq({ model, messages, temperature, max_tokens, tools, tool_choice, stream = false }) {
   const apiKey = process.env.GROQ_API_KEY;
   if (!apiKey) {
     throw new Error('GROQ_API_KEY is not configured in environment variables.');
@@ -137,6 +153,12 @@ async function callGroq({ model, messages, temperature, max_tokens, stream = fal
     stream: !!stream
   };
   if (max_tokens) payload.max_tokens = max_tokens;
+  if (tools && Array.isArray(tools) && tools.length > 0) {
+    payload.tools = tools;
+  }
+  if (tool_choice) {
+    payload.tool_choice = tool_choice;
+  }
 
   return await groq.chat.completions.create(payload);
 }
@@ -154,7 +176,7 @@ async function callGemini({ model, messages, temperature, max_tokens, stream = f
   const { systemInstruction, contents } = convertOpenAiMessagesToGemini(messages);
 
   const modelOptions = {
-    model: model || 'gemini-2.0-flash',
+    model: model || 'gemini-3.6-flash',
   };
   if (systemInstruction) {
     modelOptions.systemInstruction = systemInstruction;
@@ -176,12 +198,11 @@ async function callGemini({ model, messages, temperature, max_tokens, stream = f
     const response = await result.response;
     const text = response.text();
 
-    // Map Gemini response to standard OpenAI format
     return {
       id: `chatcmpl-gemini-${Date.now()}`,
       object: 'chat.completion',
       created: Math.floor(Date.now() / 1000),
-      model: model || 'gemini-2.0-flash',
+      model: model || 'gemini-3.6-flash',
       choices: [
         {
           index: 0,
@@ -209,6 +230,8 @@ async function handleChatCompletion(body, customPipeline = null) {
   const messages = body.messages || [];
   const temperature = body.temperature;
   const max_tokens = body.max_tokens;
+  const tools = body.tools;
+  const tool_choice = body.tool_choice;
 
   let lastError = null;
   let previousAttempts = [];
@@ -228,6 +251,8 @@ async function handleChatCompletion(body, customPipeline = null) {
           messages,
           temperature,
           max_tokens,
+          tools,
+          tool_choice,
           stream: false
         });
       } else if (target.provider === 'gemini') {
@@ -272,10 +297,6 @@ async function handleChatCompletion(body, customPipeline = null) {
         fallbackFrom,
         error: err
       });
-
-      if (!shouldFallback(err) && i < pipeline.length - 1) {
-        logger.warn(`Error marked as non-recoverable, but attempting next fallback provider in chain.`);
-      }
     }
   }
 
@@ -323,9 +344,10 @@ async function handleChatStream(res, body, customPipeline = null) {
   const messages = body.messages || [];
   const temperature = body.temperature;
   const max_tokens = body.max_tokens;
+  const tools = body.tools;
+  const tool_choice = body.tool_choice;
 
   let streamStarted = false;
-  let lastError = null;
   let previousAttempts = [];
 
   for (let i = 0; i < pipeline.length; i++) {
@@ -342,6 +364,8 @@ async function handleChatStream(res, body, customPipeline = null) {
           messages,
           temperature,
           max_tokens,
+          tools,
+          tool_choice,
           stream: true
         });
 
@@ -392,7 +416,6 @@ async function handleChatStream(res, body, customPipeline = null) {
           }
         }
 
-        // Send final chunk with finish_reason
         const finalChunk = {
           id: completionId,
           object: 'chat.completion.chunk',
@@ -421,11 +444,9 @@ async function handleChatStream(res, body, customPipeline = null) {
         return;
       }
     } catch (err) {
-      lastError = err;
       previousAttempts.push(`${target.provider}:${target.model}`);
       logger.error(`Stream error on [${target.provider} -> ${target.model}]: ${err.message}`);
 
-      // If we already sent bytes to the client stream, we cannot restart stream from scratch cleanly
       if (streamStarted) {
         logger.error('Stream already started sending tokens to client; closing stream prematurely.');
         res.write('data: [DONE]\n\n');

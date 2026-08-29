@@ -1,0 +1,60 @@
+[
+  {
+    "type": "function",
+    "async": false,
+    "server": {
+      "url": "https://ai-voice-receptionist-0wtg.onrender.com/check-availability"
+    },
+    "function": {
+      "name": "check_availability",
+      "description": "Checks whether a specific appointment date and time slot is available in the City Dental Clinic booking calendar.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "description": "The desired appointment date in YYYY-MM-DD format (e.g. '2026-09-15')."
+          },
+          "time": {
+            "type": "string",
+            "description": "The desired appointment time in HH:MM or 12-hour format (e.g. '14:00' or '2:00 PM')."
+          }
+        },
+        "required": ["date", "time"]
+      }
+    }
+  },
+  {
+    "type": "function",
+    "async": false,
+    "server": {
+      "url": "https://ai-voice-receptionist-0wtg.onrender.com/book-appointment"
+    },
+    "function": {
+      "name": "book_appointment",
+      "description": "Books a confirmed dental appointment for a patient and records it into the clinic booking database and Google Sheets.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The full name of the patient (e.g. 'John Doe')."
+          },
+          "date": {
+            "type": "string",
+            "description": "The appointment date in YYYY-MM-DD format (e.g. '2026-09-15')."
+          },
+          "time": {
+            "type": "string",
+            "description": "The appointment time in HH:MM or 12-hour format (e.g. '14:00' or '2:00 PM')."
+          },
+          "reason": {
+            "type": "string",
+            "description": "The reason for the appointment or service requested (e.g. 'Routine Checkup', 'Teeth Cleaning', 'Toothache Consultation')."
+          }
+        },
+        "required": ["name", "date", "time", "reason"]
+      }
+    }
+  }
+]

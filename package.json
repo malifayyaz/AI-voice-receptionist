@@ -1,0 +1,32 @@
+{
+  "name": "ai-voice-receptionist-backend",
+  "version": "1.0.0",
+  "description": "Node.js & Express backend with Booking API, Google Sheets sync, and LLM Fallback Router for Voice AI",
+  "main": "src/server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "test": "node scripts/test-router.js"
+  },
+  "keywords": [
+    "vapi",
+    "voice-ai",
+    "llm-router",
+    "groq",
+    "gemini",
+    "booking-api",
+    "google-sheets"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "google-auth-library": "^9.15.1",
+    "google-spreadsheet": "^4.1.4",
+    "groq-sdk": "^0.15.0"
+  }
+}

@@ -90,8 +90,8 @@ router.post('/check-availability', (req, res) => {
     logger.info(`Availability check for ${date} at ${time}: ${available ? 'AVAILABLE' : 'BOOKED'}`);
 
     const resultMessage = available
-      ? `Yes, ${date} at ${time} is available for booking.`
-      : `Sorry, the slot on ${date} at ${time} is already booked. Please choose another time.`;
+      ? `AVAILABLE: The appointment slot on ${date} at ${time} is open and ready to book.`
+      : `UNAVAILABLE: The appointment slot on ${date} at ${time} is already booked by another patient. Inform the caller politely and ask if an alternative time or date works for them.`;
 
     return sendFormattedResponse(res, 200, { available }, toolCallId, resultMessage);
   } catch (error) {

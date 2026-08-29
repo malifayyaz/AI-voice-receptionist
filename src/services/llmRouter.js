@@ -6,6 +6,8 @@ const logger = require('./logger');
 const DEFAULT_PIPELINE = [
   { provider: 'groq', model: 'llama-3.3-70b-versatile' },
   { provider: 'groq', model: 'llama-3.1-70b-versatile' },
+  { provider: 'groq', model: 'openai/gpt-oss-120b' },
+  { provider: 'gemini', model: 'gemini-3.6-flash' },
   { provider: 'gemini', model: 'gemini-2.0-flash' }
 ];
 

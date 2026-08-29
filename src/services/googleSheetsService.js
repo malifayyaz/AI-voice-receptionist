@@ -12,7 +12,10 @@ async function getDoc() {
   const privateKey = process.env.GOOGLE_PRIVATE_KEY
     ? process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n')
     : null;
-  const sheetId = process.env.GOOGLE_SHEET_ID;
+  const rawSheetId = process.env.GOOGLE_SHEET_ID;
+  const sheetId = rawSheetId
+    ? ((rawSheetId.match(/\/d\/([a-zA-Z0-9-_]+)/) || [])[1] || rawSheetId.trim())
+    : null;
 
   if (!clientEmail || !privateKey || !sheetId) {
     logger.warn('Google Sheets environment variables missing (GOOGLE_CLIENT_EMAIL, GOOGLE_PRIVATE_KEY, GOOGLE_SHEET_ID). Sheets sync disabled.');

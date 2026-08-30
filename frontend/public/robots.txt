@@ -1,0 +1,3 @@
+# Robots.txt for City Dental Clinic
+User-agent: *
+Allow: /

@@ -2,47 +2,47 @@
 
 import React from 'react';
 
-const SERVICES = [
+const PROCEDURES = [
   {
-    name: 'Routine Checkup & Digital Scan',
+    name: 'Routine Consultation & HD Digital Scan',
     price: '$30',
-    tag: 'Popular',
-    desc: 'Comprehensive oral examination, digital HD X-rays, cavity detection, and tailored treatment strategy.',
-    duration: '30 mins'
+    category: 'Preventative',
+    desc: 'Comprehensive oral examination, high-definition digital X-rays, cavity detection, and periodontal health assessment.',
+    duration: '30 min'
   },
   {
-    name: 'Professional Teeth Cleaning & Polish',
+    name: 'Ultrasonic Teeth Cleaning & Polish',
     price: '$50',
-    tag: 'Essential',
-    desc: 'Ultrasonic plaque & tartar removal, enamel stain polishing, and deep gum health treatment.',
-    duration: '45 mins'
+    category: 'Hygiene',
+    desc: 'Gentle ultrasonic plaque and calculus debridement, surface stain polishing, and remineralizing fluoride application.',
+    duration: '45 min'
   },
   {
-    name: 'Gentle Root Canal Therapy',
-    price: 'Consultation',
-    tag: 'Specialist',
-    desc: 'Modern painless endodontic therapy designed to relieve pain and save natural infected teeth.',
-    duration: '60 mins'
+    name: 'Endodontic Root Canal Therapy',
+    price: 'From $180',
+    category: 'Specialist',
+    desc: 'Microscope-assisted root canal disinfection and bioceramic sealing to alleviate pain and preserve natural teeth.',
+    duration: '60 min'
   },
   {
-    name: 'Laser Teeth Whitening',
-    price: 'Consultation',
-    tag: 'Cosmetic',
-    desc: 'In-office professional LED laser whitening achieving up to 6 shades brighter in a single visit.',
-    duration: '45 mins'
+    name: 'In-Office Laser Teeth Whitening',
+    price: '$120',
+    category: 'Cosmetics',
+    desc: 'Professional LED-activated whitening treatment achieving up to 6 shades brighter in a single 45-minute visit.',
+    duration: '45 min'
   },
   {
-    name: 'Emergency Dental Pain Relief',
-    price: 'Immediate',
-    tag: 'Urgent Care',
-    desc: 'Same-day priority appointments for acute toothache, chipped crowns, or sudden dental trauma.',
-    duration: 'Priority'
+    name: 'Emergency Dental Pain & Trauma Care',
+    price: 'Priority',
+    category: 'Urgent Care',
+    desc: 'Immediate same-day triage and relief for acute toothache, crown fractures, abscesses, or facial impact trauma.',
+    duration: 'Immediate'
   },
   {
-    name: 'Porcelain Veneers & Crowns',
+    name: 'Custom Ceramic Veneers & Crowns',
     price: 'Custom',
-    tag: 'Aesthetics',
-    desc: 'Custom-crafted aesthetic ceramics for durable, natural-looking smile transformations.',
+    category: 'Restorative',
+    desc: 'Precision CAD/CAM aesthetic restorations handcrafted for seamless, natural smile aesthetics and longevity.',
     duration: 'Multi-Visit'
   }
 ];
@@ -50,155 +50,131 @@ const SERVICES = [
 export default function ServicesSection({ onOpenVoice }) {
   return (
     <section
-      id="services"
+      id="procedures"
       style={{
-        padding: '100px 24px',
-        maxWidth: '1200px',
+        padding: '120px 24px',
+        maxWidth: '1000px',
         margin: '0 auto',
         position: 'relative'
       }}
     >
-      {/* Header */}
-      <div style={{ textAlign: 'center', maxWidth: '650px', margin: '0 auto 60px auto' }}>
+      {/* Section Header */}
+      <div style={{ marginBottom: '64px' }}>
         <span
           style={{
-            fontSize: '0.8rem',
-            fontWeight: 600,
-            color: '#D9654B',
-            textTransform: 'uppercase',
+            fontSize: '0.76rem',
+            fontFamily: 'var(--font-mono)',
+            color: 'var(--text-muted)',
             letterSpacing: '0.06em',
+            textTransform: 'uppercase',
             display: 'block',
             marginBottom: '12px'
           }}
         >
-          Transparent Pricing
+          TRANSPARENT SCHEDULE OF FEES
         </span>
-        <h2
+        <div
           style={{
-            fontSize: 'clamp(2rem, 3.5vw, 2.7rem)',
-            color: '#FFFFFF',
-            lineHeight: 1.2,
-            marginBottom: '16px'
+            display: 'flex',
+            alignItems: 'baseline',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: '16px'
           }}
         >
-          Comprehensive care with no surprise fees.
-        </h2>
-        <p style={{ fontSize: '1.02rem', color: '#94A3B8', lineHeight: 1.6 }}>
-          Clear, honest rates upfront. Inquire about or book any procedure directly with Maya.
-        </p>
-      </div>
-
-      {/* Grid */}
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-          gap: '24px'
-        }}
-      >
-        {SERVICES.map((srv, idx) => (
-          <div
-            key={idx}
-            className="glass-panel"
+          <h2
             style={{
-              padding: '30px 26px',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-              position: 'relative',
-              borderRadius: '20px',
-              transition: 'all 0.2s ease'
+              fontFamily: 'var(--font-serif)',
+              fontSize: 'clamp(2.2rem, 4vw, 3.2rem)',
+              fontWeight: 400,
+              color: '#FFFFFF',
+              lineHeight: 1.15
             }}
           >
+            Procedures &amp; Rates
+          </h2>
+          <p style={{ color: 'var(--text-body)', fontSize: '0.95rem' }}>
+            No hidden costs. Inquire or book any procedure with Maya.
+          </p>
+        </div>
+      </div>
+
+      {/* Editorial Minimalist List (Ramp / Midday Style) */}
+      <div style={{ borderTop: '1px solid var(--border-hairline)' }}>
+        {PROCEDURES.map((item, idx) => (
+          <div
+            key={idx}
+            style={{
+              padding: '28px 0',
+              borderBottom: '1px solid var(--border-hairline)',
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+              gap: '24px',
+              alignItems: 'baseline',
+              transition: 'background-color 0.15s ease'
+            }}
+          >
+            {/* Left: Procedure Name & Category */}
             <div>
-              {/* Top Meta */}
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  marginBottom: '18px'
-                }}
-              >
-                <span
-                  style={{
-                    fontSize: '0.72rem',
-                    fontWeight: 600,
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.04em',
-                    padding: '3px 10px',
-                    borderRadius: '6px',
-                    background: 'rgba(255, 255, 255, 0.05)',
-                    color: '#CBD5E1'
-                  }}
-                >
-                  {srv.tag}
-                </span>
-                <span style={{ fontSize: '0.8rem', color: '#64748B', fontFamily: 'var(--font-mono)' }}>
-                  {srv.duration}
-                </span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '6px' }}>
+                <h3 style={{ fontSize: '1.15rem', color: '#FFFFFF', fontWeight: 500, letterSpacing: '-0.01em' }}>
+                  {item.name}
+                </h3>
               </div>
-
-              {/* Title & Price */}
-              <h3
-                style={{
-                  fontSize: '1.2rem',
-                  color: '#FFFFFF',
-                  fontWeight: 600,
-                  marginBottom: '8px'
-                }}
-              >
-                {srv.name}
-              </h3>
-              <div
-                style={{
-                  fontSize: '1.6rem',
-                  fontWeight: 700,
-                  color: '#D9654B',
-                  fontFamily: 'var(--font-serif)',
-                  marginBottom: '14px'
-                }}
-              >
-                {srv.price}
-              </div>
-
-              <p style={{ fontSize: '0.9rem', color: '#94A3B8', lineHeight: 1.55 }}>
-                {srv.desc}
+              <p style={{ color: 'var(--text-body)', fontSize: '0.88rem', lineHeight: 1.6, maxWidth: '440px' }}>
+                {item.desc}
               </p>
             </div>
 
-            {/* Book CTA Link */}
-            <button
-              onClick={onOpenVoice}
+            {/* Right: Duration, Price & Action */}
+            <div
               style={{
-                marginTop: '24px',
-                padding: '10px 16px',
-                borderRadius: '10px',
-                background: 'rgba(255, 255, 255, 0.04)',
-                border: '1px solid rgba(255, 255, 255, 0.08)',
-                color: '#E2E8F0',
-                fontSize: '0.86rem',
-                fontWeight: 600,
-                cursor: 'pointer',
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'space-between',
-                transition: 'all 0.2s'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = '#D9654B';
-                e.currentTarget.style.color = '#FFFFFF';
-                e.currentTarget.style.borderColor = '#D9654B';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.04)';
-                e.currentTarget.style.color = '#E2E8F0';
-                e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.08)';
+                justifyContent: 'flex-end',
+                gap: '36px',
+                flexWrap: 'wrap'
               }}
             >
-              <span>Book with Maya</span>
-              <span>&rarr;</span>
-            </button>
+              <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>
+                {item.duration}
+              </span>
+              <span
+                style={{
+                  fontFamily: 'var(--font-serif)',
+                  fontSize: '1.45rem',
+                  fontWeight: 400,
+                  color: 'var(--accent-terracotta)',
+                  minWidth: '90px',
+                  textAlign: 'right'
+                }}
+              >
+                {item.price}
+              </span>
+              <button
+                onClick={onOpenVoice}
+                style={{
+                  background: 'transparent',
+                  border: '1px solid var(--border-subtle)',
+                  borderRadius: '99px',
+                  padding: '6px 14px',
+                  color: '#CBD5E1',
+                  fontSize: '0.8rem',
+                  cursor: 'pointer',
+                  transition: 'all 0.15s ease'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = 'var(--text-pure)';
+                  e.currentTarget.style.color = 'var(--text-pure)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = 'var(--border-subtle)';
+                  e.currentTarget.style.color = '#CBD5E1';
+                }}
+              >
+                Book
+              </button>
+            </div>
           </div>
         ))}
       </div>

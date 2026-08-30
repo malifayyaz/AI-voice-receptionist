@@ -4,24 +4,20 @@ import React, { useState } from 'react';
 
 const FAQS = [
   {
-    q: 'How does booking with Maya (AI Receptionist) work?',
-    a: 'Maya is our real-time voice receptionist. You simply speak to her on the phone or right here in your browser. Tell her your name, desired date, time, and service. She instantly checks our live appointment book and Google Sheets, and confirms your slot in seconds.'
+    q: 'How does booking with Maya work?',
+    a: 'Maya is our real-time voice receptionist. You speak naturally over the phone or directly in your browser. She checks live doctor availability, verifies the slot, and records your booking instantly to our database and Google Sheets.'
   },
   {
-    q: 'What are your clinic operating hours and location?',
-    a: 'City Dental Clinic is located at 12 Main Boulevard (with free dedicated parking). We are open Monday through Saturday from 9:00 AM to 6:00 PM. We are closed on Sundays.'
+    q: 'What are the clinic hours and address?',
+    a: 'City Dental Clinic is located at 12 Main Boulevard with dedicated free parking. We are open Monday through Saturday from 9:00 AM to 6:00 PM (Closed Sundays). Maya is available 24/7 for appointments.'
   },
   {
-    q: 'How much do routine visits cost?',
-    a: 'Routine Dental Consultations & Examinations are $30. Professional Ultrasonic Teeth Cleaning & Polish is $50. Specialized treatments such as root canals, crowns, or teeth whitening are quoted transparently during your visit.'
+    q: 'What are the standard consultation fees?',
+    a: 'Routine Dental Consultations & Digital HD Scans are $30. Professional Ultrasonic Teeth Cleaning & Polish is $50. Specialist procedures such as endodontics or cosmetic veneers are quoted transparently during your visit.'
   },
   {
-    q: 'What should I do in case of acute dental emergencies?',
-    a: 'If you have sudden severe toothache or a chipped tooth during business hours, call us or talk to Maya to grab an emergency slot. For severe trauma, heavy bleeding, or difficulty breathing, visit the nearest hospital emergency room immediately.'
-  },
-  {
-    q: 'Can I reschedule or cancel my appointment?',
-    a: 'Yes! Simply call Maya or visit our front desk at 12 Main Boulevard anytime before your appointment slot.'
+    q: 'What is the procedure for acute dental trauma or emergency pain?',
+    a: 'For same-day toothache or chipped crowns, call Maya to grab an emergency priority slot. For severe facial trauma or acute breathing distress, proceed immediately to the nearest hospital emergency department.'
   }
 ];
 
@@ -33,74 +29,73 @@ export default function FaqSection() {
       id="faqs"
       style={{
         padding: '100px 24px',
-        maxWidth: '900px',
+        maxWidth: '860px',
         margin: '0 auto',
         position: 'relative'
       }}
     >
-      <div style={{ textAlign: 'center', marginBottom: '56px' }}>
+      <div style={{ marginBottom: '56px' }}>
         <span
           style={{
-            fontSize: '0.82rem',
-            fontWeight: 700,
-            color: '#06B6D4',
+            fontSize: '0.76rem',
+            fontFamily: 'var(--font-mono)',
+            color: 'var(--text-muted)',
+            letterSpacing: '0.06em',
             textTransform: 'uppercase',
-            letterSpacing: '0.08em',
             display: 'block',
             marginBottom: '12px'
           }}
         >
-          Frequently Asked Questions
+          CLINICAL INFORMATION
         </span>
         <h2
           style={{
-            fontSize: 'clamp(2rem, 3.5vw, 2.6rem)',
+            fontFamily: 'var(--font-serif)',
+            fontSize: 'clamp(2.2rem, 4vw, 3.2rem)',
+            fontWeight: 400,
             color: '#FFFFFF',
-            lineHeight: 1.2
+            lineHeight: 1.15
           }}
         >
-          Everything you need to know about visiting us.
+          Frequently Asked Questions
         </h2>
       </div>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+      <div style={{ borderTop: '1px solid var(--border-hairline)' }}>
         {FAQS.map((faq, idx) => {
           const isOpen = openIndex === idx;
           return (
             <div
               key={idx}
-              className="glass-panel"
               style={{
-                borderRadius: '16px',
-                overflow: 'hidden',
-                transition: 'all 0.2s ease',
-                border: isOpen ? '1px solid rgba(255, 101, 89, 0.35)' : '1px solid rgba(255, 255, 255, 0.08)'
+                borderBottom: '1px solid var(--border-hairline)',
+                padding: '24px 0'
               }}
             >
               <button
                 onClick={() => setOpenIndex(isOpen ? -1 : idx)}
                 style={{
                   width: '100%',
-                  padding: '22px 24px',
                   background: 'transparent',
                   border: 'none',
                   color: '#FFFFFF',
                   textAlign: 'left',
-                  fontSize: '1.05rem',
-                  fontWeight: 700,
+                  fontSize: '1.08rem',
+                  fontWeight: 500,
                   cursor: 'pointer',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'space-between',
-                  gap: '16px'
+                  gap: '16px',
+                  padding: 0
                 }}
               >
                 <span>{faq.q}</span>
                 <span
                   style={{
-                    fontSize: '1.4rem',
-                    color: isOpen ? '#FF6559' : '#94A3B8',
-                    transition: 'transform 0.2s ease',
+                    fontSize: '1.2rem',
+                    color: isOpen ? 'var(--accent-terracotta)' : 'var(--text-muted)',
+                    transition: 'transform 0.15s ease',
                     transform: isOpen ? 'rotate(45deg)' : 'rotate(0deg)'
                   }}
                 >
@@ -111,10 +106,11 @@ export default function FaqSection() {
               {isOpen && (
                 <div
                   style={{
-                    padding: '0 24px 22px 24px',
-                    color: '#94A3B8',
-                    fontSize: '0.95rem',
-                    lineHeight: 1.6
+                    marginTop: '16px',
+                    color: 'var(--text-body)',
+                    fontSize: '0.92rem',
+                    lineHeight: 1.65,
+                    maxWidth: '680px'
                   }}
                 >
                   {faq.a}

@@ -4,8 +4,9 @@ import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
 import Navbar from '../components/Navbar';
 import HeroSection from '../components/HeroSection';
-import ValuePropsSection from '../components/ValuePropsSection';
+import ConversationDemoSection from '../components/ConversationDemoSection';
 import ServicesSection from '../components/ServicesSection';
+import ValuePropsSection from '../components/ValuePropsSection';
 import FaqSection from '../components/FaqSection';
 import Footer from '../components/Footer';
 
@@ -19,25 +20,28 @@ export default function HomePage() {
 
   return (
     <main style={{ minHeight: '100vh', background: 'var(--bg-deep)' }}>
-      {/* Navigation Header with Responsive Mobile Drawer */}
+      {/* Minimalist Editorial Navigation */}
       <Navbar onOpenVoice={() => setIsVoiceOpen(true)} />
 
-      {/* Hero Section with refined typographic hierarchy & single primary CTA */}
+      {/* Centered Single-Column Full-Width Hero (Midday / Ramp inspired) */}
       <HeroSection onOpenVoice={() => setIsVoiceOpen(true)} />
 
-      {/* 3 Core Value Props */}
-      <ValuePropsSection />
+      {/* Full-Width Editorial Conversation Transcript Demo */}
+      <ConversationDemoSection onOpenVoice={() => setIsVoiceOpen(true)} />
 
-      {/* Services & Transparent Pricing */}
+      {/* Procedures & Transparent Rates Table */}
       <ServicesSection onOpenVoice={() => setIsVoiceOpen(true)} />
 
-      {/* Clinic FAQs Accordion */}
+      {/* Clinical Standards / Core Pillars */}
+      <ValuePropsSection />
+
+      {/* Frequently Asked Questions */}
       <FaqSection />
 
-      {/* Footer */}
+      {/* Practice Footer */}
       <Footer onOpenVoice={() => setIsVoiceOpen(true)} />
 
-      {/* Interactive Vapi Voice Web Widget Modal */}
+      {/* Interactive Vapi Voice Web Widget */}
       <VapiVoiceWidget
         isOpen={isVoiceOpen}
         onClose={() => setIsVoiceOpen(false)}

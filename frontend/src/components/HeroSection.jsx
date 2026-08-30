@@ -6,23 +6,39 @@ export default function HeroSection({ onOpenVoice }) {
   return (
     <section
       style={{
-        paddingTop: '140px',
-        paddingBottom: '90px',
+        paddingTop: '160px',
+        paddingBottom: '120px',
         position: 'relative',
-        overflow: 'hidden'
+        background: 'var(--bg-deep)',
+        overflow: 'hidden',
+        textAlign: 'center'
       }}
-      className="bg-ambient-hero"
     >
-      {/* Subtle Radial Glow behind headline */}
+      {/* Soft, blurred radial glow positioned behind the headline only */}
       <div
         style={{
           position: 'absolute',
-          top: '20%',
-          left: '15%',
-          width: '420px',
-          height: '420px',
+          top: '30%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: '540px',
+          height: '380px',
           borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(217, 101, 75, 0.08) 0%, transparent 70%)',
+          background: 'radial-gradient(ellipse at center, rgba(212, 103, 76, 0.07) 0%, rgba(212, 103, 76, 0.02) 45%, transparent 75%)',
+          filter: 'blur(40px)',
+          pointerEvents: 'none',
+          zIndex: 0
+        }}
+      />
+
+      {/* Subtle abstract ambient grain overlay */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundImage: 'radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px)',
+          backgroundSize: '40px 40px',
+          opacity: 0.35,
           pointerEvents: 'none',
           zIndex: 0
         }}
@@ -30,345 +46,122 @@ export default function HeroSection({ onOpenVoice }) {
 
       <div
         style={{
-          maxWidth: '1200px',
+          maxWidth: '1000px',
           margin: '0 auto',
           padding: '0 24px',
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-          gap: '56px',
-          alignItems: 'center',
           position: 'relative',
-          zIndex: 1
+          zIndex: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center'
         }}
       >
-        {/* Left Column: Headlines & Single Unified CTA */}
-        <div>
-          {/* Top Status Pill */}
-          <div
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '10px',
-              padding: '6px 14px',
-              borderRadius: '99px',
-              background: 'rgba(217, 101, 75, 0.08)',
-              border: '1px solid rgba(217, 101, 75, 0.22)',
-              marginBottom: '28px'
-            }}
-          >
-            <span
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '3px'
-              }}
-            >
-              <span className="wave-bar" />
-              <span className="wave-bar" />
-              <span className="wave-bar" />
-            </span>
-            <span
-              style={{
-                fontSize: '0.78rem',
-                fontWeight: 600,
-                color: '#D9654B',
-                letterSpacing: '0.04em',
-                textTransform: 'uppercase'
-              }}
-            >
-              24/7 AI Voice Receptionist Active
-            </span>
-          </div>
-
-          {/* Main Headline (Dominant, commanding serif) */}
-          <h1
-            style={{
-              fontSize: 'clamp(2.6rem, 5.2vw, 4.0rem)',
-              lineHeight: 1.12,
-              fontWeight: 700,
-              color: '#FFFFFF',
-              marginBottom: '18px',
-              letterSpacing: '-0.025em'
-            }}
-          >
-            City Dental Clinic
-          </h1>
-
-          {/* Tagline (Noticeably smaller, lighter weight for clear hierarchy) */}
-          <p
-            style={{
-              fontFamily: 'var(--font-sans)',
-              fontSize: 'clamp(1.02rem, 1.8vw, 1.15rem)',
-              color: '#CBD5E1',
-              lineHeight: 1.6,
-              fontWeight: 400,
-              marginBottom: '36px',
-              maxWidth: '540px'
-            }}
-          >
-            Dentistry without the hold music. Experience frictionless, patient-first care backed by instant 24/7 voice scheduling.
-          </p>
-
-          {/* Primary Action Button Row (One primary button + secondary link) */}
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '18px',
-              flexWrap: 'wrap',
-              marginBottom: '48px'
-            }}
-          >
-            <button
-              onClick={onOpenVoice}
-              className="btn-primary"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '10px',
-                padding: '14px 28px',
-                borderRadius: '12px',
-                fontSize: '0.98rem',
-                fontWeight: 600
-              }}
-            >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
-                <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
-                <line x1="12" x2="12" y1="19" y2="22"/>
-              </svg>
-              Talk to Maya (AI Receptionist)
-            </button>
-
-            <a
-              href="#services"
-              style={{
-                color: '#94A3B8',
-                textDecoration: 'none',
-                fontSize: '0.9rem',
-                fontWeight: 500,
-                padding: '12px 18px',
-                borderRadius: '10px',
-                background: 'rgba(255, 255, 255, 0.03)',
-                border: '1px solid rgba(255, 255, 255, 0.08)',
-                transition: 'all 0.2s ease'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.color = '#FFFFFF';
-                e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.18)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.color = '#94A3B8';
-                e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.08)';
-              }}
-            >
-              Procedures &amp; Rates &rarr;
-            </a>
-          </div>
-
-          {/* Quick Clinic Badges with Generous Breathing Room */}
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-              gap: '24px',
-              paddingTop: '28px',
-              borderTop: '1px solid rgba(255, 255, 255, 0.07)'
-            }}
-          >
-            {/* Hours */}
-            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
-              <div
-                style={{
-                  width: '32px',
-                  height: '32px',
-                  borderRadius: '8px',
-                  background: 'rgba(16, 185, 129, 0.08)',
-                  border: '1px solid rgba(16, 185, 129, 0.18)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: '#10B981',
-                  flexShrink: 0
-                }}
-              >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <circle cx="12" cy="12" r="10"/>
-                  <polyline points="12 6 12 12 16 14"/>
-                </svg>
-              </div>
-              <div>
-                <span style={{ fontSize: '0.72rem', color: '#64748B', textTransform: 'uppercase', fontWeight: 600, display: 'block', letterSpacing: '0.04em' }}>Clinic Hours</span>
-                <span style={{ fontSize: '0.88rem', color: '#F1F5F9', fontWeight: 600, display: 'block', marginTop: '2px' }}>Mon–Sat: 9:00 AM – 6:00 PM</span>
-                <span style={{ fontSize: '0.75rem', color: '#94A3B8', display: 'block' }}>Closed Sundays</span>
-              </div>
-            </div>
-
-            {/* Address */}
-            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
-              <div
-                style={{
-                  width: '32px',
-                  height: '32px',
-                  borderRadius: '8px',
-                  background: 'rgba(6, 182, 212, 0.08)',
-                  border: '1px solid rgba(6, 182, 212, 0.18)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: '#06B6D4',
-                  flexShrink: 0
-                }}
-              >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
-                  <circle cx="12" cy="10" r="3"/>
-                </svg>
-              </div>
-              <div>
-                <span style={{ fontSize: '0.72rem', color: '#64748B', textTransform: 'uppercase', fontWeight: 600, display: 'block', letterSpacing: '0.04em' }}>Location</span>
-                <span style={{ fontSize: '0.88rem', color: '#F1F5F9', fontWeight: 600, display: 'block', marginTop: '2px' }}>12 Main Boulevard</span>
-                <span style={{ fontSize: '0.75rem', color: '#94A3B8', display: 'block' }}>Dedicated Patient Parking</span>
-              </div>
-            </div>
-          </div>
+        {/* Whisper-quiet status line (Minimal, no thick border box) */}
+        <div
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '8px',
+            fontSize: '0.8rem',
+            color: 'var(--text-muted)',
+            fontFamily: 'var(--font-mono)',
+            letterSpacing: '0.04em',
+            marginBottom: '32px'
+          }}
+        >
+          <span className="micro-dot" />
+          <span>MAYA 2.0 &bull; 24/7 VOICE CONCIERGE</span>
         </div>
 
-        {/* Right Column: Purely Illustrative Chat Mockup (No Redundant Button) */}
-        <div>
-          <div
-            className="glass-panel"
-            style={{
-              padding: '32px 26px',
-              position: 'relative',
-              borderRadius: '24px',
-              background: 'rgba(11, 18, 38, 0.85)',
-              border: '1px solid rgba(255, 255, 255, 0.09)',
-              boxShadow: '0 24px 48px -12px rgba(0, 0, 0, 0.55), 0 4px 12px rgba(0, 0, 0, 0.25)'
-            }}
-          >
-            {/* Top Assistant Header */}
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                marginBottom: '22px',
-                paddingBottom: '16px',
-                borderBottom: '1px solid rgba(255, 255, 255, 0.07)'
-              }}
-            >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <div
-                  style={{
-                    width: '42px',
-                    height: '42px',
-                    borderRadius: '12px',
-                    background: 'linear-gradient(135deg, #D9654B, #8B3E2C)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: '#FFFFFF',
-                    fontWeight: 700,
-                    fontSize: '1rem',
-                    boxShadow: '0 4px 12px rgba(217, 101, 75, 0.25)',
-                    flexShrink: 0
-                  }}
-                >
-                  M
-                </div>
-                <div>
-                  <h4 style={{ fontSize: '0.98rem', color: '#FFFFFF', fontWeight: 600 }}>Maya</h4>
-                  <p style={{ fontSize: '0.76rem', color: '#10B981', display: 'flex', alignItems: 'center', gap: '5px', marginTop: '1px' }}>
-                    <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#10B981' }} />
-                    Live Voice Receptionist
-                  </p>
-                </div>
-              </div>
+        {/* Dominant Editorial Serif H1 (Midday scale) */}
+        <h1
+          style={{
+            fontFamily: 'var(--font-serif)',
+            fontSize: 'clamp(3.2rem, 7.5vw, 6.0rem)',
+            fontWeight: 400,
+            lineHeight: 1.05,
+            color: '#FFFFFF',
+            letterSpacing: '-0.035em',
+            marginBottom: '28px',
+            maxWidth: '900px'
+          }}
+        >
+          Dentistry without the hold music.
+        </h1>
 
-              <span
-                style={{
-                  fontSize: '0.72rem',
-                  padding: '3px 10px',
-                  borderRadius: '6px',
-                  background: 'rgba(255, 255, 255, 0.05)',
-                  color: '#94A3B8',
-                  fontFamily: 'var(--font-mono)'
-                }}
-              >
-                Real-time Audio
-              </span>
-            </div>
+        {/* Refined, constrained subtext */}
+        <p
+          style={{
+            fontSize: 'clamp(1.02rem, 1.8vw, 1.15rem)',
+            color: 'var(--text-body)',
+            lineHeight: 1.65,
+            fontWeight: 400,
+            maxWidth: '580px',
+            margin: '0 auto 40px auto'
+          }}
+        >
+          City Dental Clinic pairs world-class clinical craft with an intelligent voice receptionist that books appointments in real-time.
+        </p>
 
-            {/* Conversation Flow (Varied organic bubble radius) */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', marginBottom: '22px' }}>
-              <div
-                style={{
-                  alignSelf: 'flex-start',
-                  background: 'rgba(255, 255, 255, 0.05)',
-                  border: '1px solid rgba(255, 255, 255, 0.06)',
-                  borderRadius: '16px 16px 16px 4px',
-                  padding: '12px 16px',
-                  maxWidth: '88%',
-                  fontSize: '0.88rem',
-                  color: '#E2E8F0',
-                  lineHeight: 1.5
-                }}
-              >
-                &ldquo;Hello! Thank you for calling City Dental Clinic. How can I help you today?&rdquo;
-              </div>
+        {/* Single Refined Hero CTA Button (Matte terracotta, understated) */}
+        <button
+          onClick={onOpenVoice}
+          className="btn-matte"
+          style={{
+            padding: '14px 34px',
+            fontSize: '0.96rem',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '9px'
+          }}
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+            <line x1="12" x2="12" y1="19" y2="22"/>
+          </svg>
+          <span>Speak to Maya</span>
+        </button>
 
-              <div
-                style={{
-                  alignSelf: 'flex-end',
-                  background: 'rgba(217, 101, 75, 0.14)',
-                  border: '1px solid rgba(217, 101, 75, 0.25)',
-                  borderRadius: '16px 16px 4px 16px',
-                  padding: '12px 16px',
-                  maxWidth: '85%',
-                  fontSize: '0.88rem',
-                  color: '#FFFFFF',
-                  lineHeight: 1.5
-                }}
-              >
-                &ldquo;Hi Maya, I&apos;d like to schedule a teeth cleaning for Tuesday at 2 PM.&rdquo;
-              </div>
+        {/* Minimal Footer-Style Horizontal Info Row (Generous breathing room, zero card borders) */}
+        <div
+          style={{
+            marginTop: '110px',
+            paddingTop: '36px',
+            borderTop: '1px solid var(--border-hairline)',
+            width: '100%',
+            maxWidth: '720px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '48px',
+            flexWrap: 'wrap',
+            color: 'var(--text-muted)',
+            fontSize: '0.84rem'
+          }}
+        >
+          {/* Hours */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+            <span>Mon–Sat: 9:00 AM – 6:00 PM</span>
+          </div>
 
-              <div
-                style={{
-                  alignSelf: 'flex-start',
-                  background: 'rgba(255, 255, 255, 0.05)',
-                  border: '1px solid rgba(255, 255, 255, 0.06)',
-                  borderRadius: '16px 16px 16px 4px',
-                  padding: '12px 16px',
-                  maxWidth: '88%',
-                  fontSize: '0.88rem',
-                  color: '#E2E8F0',
-                  lineHeight: 1.5
-                }}
-              >
-                &ldquo;Tuesday at 2:00 PM is open! I have you down for Cleaning ($50). May I have your full name?&rdquo;
-              </div>
-            </div>
+          {/* Location */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+              <circle cx="12" cy="10" r="3"/>
+            </svg>
+            <span>12 Main Boulevard (Free Parking)</span>
+          </div>
 
-            {/* Purely Informational Status Footer (No redundant CTA button) */}
-            <div
-              style={{
-                paddingTop: '14px',
-                borderTop: '1px solid rgba(255, 255, 255, 0.06)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                fontSize: '0.78rem',
-                color: '#94A3B8'
-              }}
-            >
-              <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#10B981' }} />
-                Instant Calendar &amp; Sheets Sync
-              </span>
-              <span style={{ color: '#64748B', fontFamily: 'var(--font-mono)' }}>0.3s response</span>
-            </div>
+          {/* Emergency note */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span style={{ width: '5px', height: '5px', borderRadius: '50%', background: 'var(--accent-emerald)' }} />
+            <span>24/7 Live Voice Scheduling</span>
           </div>
         </div>
       </div>

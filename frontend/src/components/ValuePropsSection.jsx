@@ -2,51 +2,21 @@
 
 import React from 'react';
 
-const VALUE_PROPS = [
+const PILLARS = [
   {
-    id: 1,
-    title: 'Zero Hold Music, Zero Waiting',
-    description: 'Never listen to canned elevator hold music again. Speak naturally to Maya and check open slots in under 3 seconds.',
-    accent: '#D9654B',
-    badge: 'Instant Pick-Up',
-    icon: (
-      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
-        <path d="M14 2v4"/>
-        <path d="M18 2v4"/>
-        <path d="M14 6h4"/>
-      </svg>
-    )
+    number: '01',
+    title: 'Zero Hold Time',
+    text: 'Every patient call is answered on the very first ring. No complex phone trees, elevator music, or voicemails.'
   },
   {
-    id: 2,
-    title: '24/7 Intelligent Booking',
-    description: 'Need to schedule late at night or over the weekend? Maya operates 24/7 with zero downtime and multi-model fallback redundancy.',
-    accent: '#10B981',
-    badge: 'Always Open',
-    icon: (
-      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <rect width="18" height="18" x="3" y="4" rx="2" ry="2"/>
-        <line x1="16" x2="16" y1="2" y2="6"/>
-        <line x1="8" x2="8" y1="2" y2="6"/>
-        <line x1="3" x2="21" y1="10" y2="10"/>
-        <path d="m9 16 2 2 4-4"/>
-      </svg>
-    )
+    number: '02',
+    title: 'Live Medical Synchronization',
+    text: 'Maya references real-time chair availability across our operatories and instantly writes confirmed visits to Google Sheets.'
   },
   {
-    id: 3,
-    title: 'Live Google Sheets & Calendar Sync',
-    description: 'Every confirmed booking writes immediately to our clinic database and synchronizes directly to Google Sheets for our medical team.',
-    accent: '#06B6D4',
-    badge: 'Real-Time Sync',
-    icon: (
-      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/>
-        <path d="m12 12-3 3h6l-3-3z"/>
-        <path d="M12 15v7"/>
-      </svg>
-    )
+    number: '03',
+    title: '24/7 Continuous Availability',
+    text: 'Schedule examinations at midnight, over the weekend, or during peak hours with redundant multi-model intelligence.'
   }
 ];
 
@@ -55,114 +25,74 @@ export default function ValuePropsSection() {
     <section
       id="experience"
       style={{
-        padding: '90px 24px',
-        maxWidth: '1200px',
+        padding: '100px 24px',
+        maxWidth: '1000px',
         margin: '0 auto',
         position: 'relative'
       }}
     >
-      <div style={{ textAlign: 'center', maxWidth: '680px', margin: '0 auto 60px auto' }}>
+      <div style={{ marginBottom: '56px' }}>
         <span
           style={{
-            fontSize: '0.8rem',
-            fontWeight: 600,
-            color: '#10B981',
-            textTransform: 'uppercase',
+            fontSize: '0.76rem',
+            fontFamily: 'var(--font-mono)',
+            color: 'var(--text-muted)',
             letterSpacing: '0.06em',
+            textTransform: 'uppercase',
             display: 'block',
             marginBottom: '12px'
           }}
         >
-          Modern Patient Experience
+          THE CLINICAL STANDARD
         </span>
         <h2
           style={{
-            fontSize: 'clamp(2rem, 3.5vw, 2.7rem)',
+            fontFamily: 'var(--font-serif)',
+            fontSize: 'clamp(2.2rem, 4vw, 3.2rem)',
+            fontWeight: 400,
             color: '#FFFFFF',
-            lineHeight: 1.2,
-            marginBottom: '16px'
+            lineHeight: 1.15
           }}
         >
-          High-touch clinical excellence meets effortless voice booking.
+          Crafted for modern patient expectations.
         </h2>
-        <p style={{ fontSize: '1.02rem', color: '#94A3B8', lineHeight: 1.6 }}>
-          Designed from the ground up to respect your time, eliminate waiting, and make scheduling as easy as a friendly conversation.
-        </p>
       </div>
 
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-          gap: '28px'
+          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+          gap: '40px',
+          borderTop: '1px solid var(--border-hairline)',
+          paddingTop: '40px'
         }}
       >
-        {VALUE_PROPS.map((prop) => (
-          <div
-            key={prop.id}
-            className="glass-panel"
-            style={{
-              padding: '36px 28px',
-              position: 'relative',
-              borderRadius: '20px',
-              transition: 'all 0.2s ease'
-            }}
-          >
-            {/* Top Badge & Icon */}
-            <div
+        {PILLARS.map((pillar, idx) => (
+          <div key={idx}>
+            <span
               style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                marginBottom: '22px'
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.84rem',
+                color: 'var(--accent-terracotta)',
+                display: 'block',
+                marginBottom: '16px'
               }}
             >
-              <div
-                style={{
-                  width: '50px',
-                  height: '50px',
-                  borderRadius: '12px',
-                  background: `rgba(${prop.accent === '#D9654B' ? '217, 101, 75' : prop.accent === '#10B981' ? '16, 185, 129' : '6, 182, 212'}, 0.1)`,
-                  border: `1px solid rgba(${prop.accent === '#D9654B' ? '217, 101, 75' : prop.accent === '#10B981' ? '16, 185, 129' : '6, 182, 212'}, 0.22)`,
-                  color: prop.accent,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center'
-                }}
-              >
-                {prop.icon}
-              </div>
-
-              <span
-                style={{
-                  fontSize: '0.72rem',
-                  fontWeight: 600,
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.04em',
-                  padding: '4px 10px',
-                  borderRadius: '6px',
-                  background: 'rgba(255, 255, 255, 0.05)',
-                  color: '#94A3B8'
-                }}
-              >
-                {prop.badge}
-              </span>
-            </div>
-
+              {pillar.number}
+            </span>
             <h3
               style={{
-                fontSize: '1.25rem',
+                fontSize: '1.2rem',
+                fontWeight: 500,
                 color: '#FFFFFF',
-                fontWeight: 600,
                 marginBottom: '12px',
-                lineHeight: 1.3
+                letterSpacing: '-0.015em'
               }}
             >
-              {prop.title}
+              {pillar.title}
             </h3>
-
-            <p style={{ fontSize: '0.92rem', color: '#94A3B8', lineHeight: 1.6 }}>
-              {prop.description}
+            <p style={{ color: 'var(--text-body)', fontSize: '0.9rem', lineHeight: 1.65 }}>
+              {pillar.text}
             </p>
           </div>
         ))}

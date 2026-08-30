@@ -18,29 +18,29 @@ export default function HeroSection({ onOpenVoice }) {
       {/* 3D / Fluid Ambient Canvas Animation Layer */}
       <AmbientCanvasBackground />
 
-      {/* Soft, blurred radial amber glow positioned directly behind headline */}
+      {/* Soft, blurred radial amber glow directly behind headline */}
       <div
         style={{
           position: 'absolute',
           top: '32%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          width: '560px',
-          height: '380px',
+          width: '580px',
+          height: '400px',
           borderRadius: '50%',
-          background: 'radial-gradient(ellipse at center, rgba(212, 103, 76, 0.08) 0%, rgba(212, 103, 76, 0.02) 50%, transparent 75%)',
-          filter: 'blur(45px)',
+          background: 'radial-gradient(ellipse at center, rgba(212, 103, 76, 0.12) 0%, rgba(212, 103, 76, 0.03) 55%, transparent 75%)',
+          filter: 'blur(50px)',
           pointerEvents: 'none',
           zIndex: 1
         }}
       />
 
-      {/* Subtle vignette layer ensuring pure black edges and maximum text contrast */}
+      {/* Lightened, targeted text-contrast overlay (lets the wave motion show through clearly) */}
       <div
         style={{
           position: 'absolute',
           inset: 0,
-          background: 'radial-gradient(circle at 50% 40%, transparent 30%, var(--bg-deep) 90%)',
+          background: 'radial-gradient(ellipse at 50% 38%, rgba(7, 7, 9, 0.45) 0%, rgba(7, 7, 9, 0.1) 60%, transparent 100%)',
           pointerEvents: 'none',
           zIndex: 1
         }}
@@ -68,14 +68,15 @@ export default function HeroSection({ onOpenVoice }) {
             color: 'var(--text-muted)',
             fontFamily: 'var(--font-mono)',
             letterSpacing: '0.04em',
-            marginBottom: '32px'
+            marginBottom: '32px',
+            textShadow: '0 2px 10px rgba(0,0,0,0.8)'
           }}
         >
           <span className="micro-dot" />
           <span>MAYA 2.0 &bull; 24/7 VOICE CONCIERGE</span>
         </div>
 
-        {/* Dominant Editorial Serif H1 */}
+        {/* Dominant Editorial Serif H1 (with subtle crisp text-shadow) */}
         <h1
           style={{
             fontFamily: 'var(--font-serif)',
@@ -85,7 +86,8 @@ export default function HeroSection({ onOpenVoice }) {
             color: '#FFFFFF',
             letterSpacing: '-0.035em',
             marginBottom: '28px',
-            maxWidth: '900px'
+            maxWidth: '900px',
+            textShadow: '0 4px 28px rgba(0, 0, 0, 0.75)'
           }}
         >
           Dentistry without the hold music.
@@ -95,11 +97,12 @@ export default function HeroSection({ onOpenVoice }) {
         <p
           style={{
             fontSize: 'clamp(1.02rem, 1.8vw, 1.15rem)',
-            color: 'var(--text-body)',
+            color: '#A0A6B2',
             lineHeight: 1.65,
             fontWeight: 400,
             maxWidth: '580px',
-            margin: '0 auto 40px auto'
+            margin: '0 auto 40px auto',
+            textShadow: '0 2px 14px rgba(0, 0, 0, 0.8)'
           }}
         >
           City Dental Clinic pairs world-class clinical craft with an intelligent voice receptionist that books appointments in real-time.
@@ -114,7 +117,8 @@ export default function HeroSection({ onOpenVoice }) {
             fontSize: '0.96rem',
             display: 'inline-flex',
             alignItems: 'center',
-            gap: '9px'
+            gap: '9px',
+            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.5)'
           }}
         >
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">

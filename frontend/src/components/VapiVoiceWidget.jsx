@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import Vapi from '@vapi-ai/web';
 
 export default function VapiVoiceWidget({ isOpen, onClose }) {
   const [callState, setCallState] = useState('idle'); // idle | connecting | active | error
@@ -15,81 +14,93 @@ export default function VapiVoiceWidget({ isOpen, onClose }) {
 
   const vapiRef = useRef(null);
 
-  // Load saved credentials from localStorage on mount
+  // Load saved credentials from localStorage on mount (client-only)
   useEffect(() => {
-    try {
-      const savedKey = localStorage.getItem('vapi_public_key');
-      const savedAssistant = localStorage.getItem('vapi_assistant_id');
-      if (savedKey) setCustomPublicKey(savedKey);
-      if (savedAssistant) setCustomAssistantId(savedAssistant);
-    } catch (e) {
-      // ignore
+    if (typeof window !== 'undefined') {
+      try {
+        const savedKey = localStorage.getItem('vapi_public_key');
+        const savedAssistant = localStorage.getItem('vapi_assistant_id');
+        if (savedKey) setCustomPublicKey(savedKey);
+        if (savedAssistant) setCustomAssistantId(savedAssistant);
+      } catch (e) {}
     }
   }, []);
 
   const publicKey = customPublicKey || process.env.NEXT_PUBLIC_VAPI_PUBLIC_KEY || '';
   const assistantId = customAssistantId || process.env.NEXT_PUBLIC_VAPI_ASSISTANT_ID || '';
 
-  // Initialize Vapi SDK
+  // Initialize Vapi SDK dynamically in browser only
   useEffect(() => {
-    if (publicKey) {
-      try {
-        const vapi = new Vapi(publicKey);
-        vapiRef.current = vapi;
+    let vapiInstance = null;
 
-        vapi.on('call-start', () => {
-          setCallState('active');
-          setErrorMessage('');
-        });
-
-        vapi.on('call-end', () => {
-          setCallState('idle');
-          setVolumeLevel(0);
-        });
-
-        vapi.on('speech-start', () => {
-          setVolumeLevel(0.8);
-        });
-
-        vapi.on('speech-end', () => {
-          setVolumeLevel(0.1);
-        });
-
-        vapi.on('volume-level', (vol) => {
-          setVolumeLevel(vol || 0);
-        });
-
-        vapi.on('message', (msg) => {
-          if (msg.type === 'transcript') {
-            setTranscript((prev) => [
-              ...prev.slice(-6),
-              { role: msg.role, text: msg.transcript }
-            ]);
-          }
-        });
-
-        vapi.on('error', (err) => {
-          console.error('Vapi Error:', err);
-          setErrorMessage(err?.message || 'Connection issue with Vapi voice service.');
-          setCallState('error');
-        });
-
-        return () => {
+    if (typeof window !== 'undefined' && publicKey) {
+      import('@vapi-ai/web')
+        .then(({ default: Vapi }) => {
           try {
-            vapi.stop();
-          } catch (e) {}
-        };
-      } catch (err) {
-        console.error('Failed to init Vapi client:', err);
-      }
+            vapiInstance = new Vapi(publicKey);
+            vapiRef.current = vapiInstance;
+
+            vapiInstance.on('call-start', () => {
+              setCallState('active');
+              setErrorMessage('');
+            });
+
+            vapiInstance.on('call-end', () => {
+              setCallState('idle');
+              setVolumeLevel(0);
+            });
+
+            vapiInstance.on('speech-start', () => {
+              setVolumeLevel(0.8);
+            });
+
+            vapiInstance.on('speech-end', () => {
+              setVolumeLevel(0.1);
+            });
+
+            vapiInstance.on('volume-level', (vol) => {
+              setVolumeLevel(vol || 0);
+            });
+
+            vapiInstance.on('message', (msg) => {
+              if (msg.type === 'transcript') {
+                setTranscript((prev) => [
+                  ...prev.slice(-6),
+                  { role: msg.role, text: msg.transcript }
+                ]);
+              }
+            });
+
+            vapiInstance.on('error', (err) => {
+              console.error('Vapi Error:', err);
+              setErrorMessage(err?.message || 'Connection issue with Vapi voice service.');
+              setCallState('error');
+            });
+          } catch (err) {
+            console.error('Failed to init Vapi client:', err);
+          }
+        })
+        .catch((err) => {
+          console.error('Failed to dynamically load @vapi-ai/web:', err);
+        });
     }
+
+    return () => {
+      if (vapiInstance) {
+        try {
+          vapiInstance.stop();
+        } catch (e) {}
+      }
+    };
   }, [publicKey]);
 
   const handleSaveCredentials = () => {
-    try {
-      if (customPublicKey) localStorage.setItem('vapi_public_key', customPublicKey.trim());
-      if (customAssistantId) localStorage.setItem('vapi_assistant_id', customAssistantId.trim());
-    } catch (e) {}
+    if (typeof window !== 'undefined') {
+      try {
+        if (customPublicKey) localStorage.setItem('vapi_public_key', customPublicKey.trim());
+        if (customAssistantId) localStorage.setItem('vapi_assistant_id', customAssistantId.trim());
+      } catch (e) {}
+    }
     setShowConfig(false);
   };
 
@@ -104,11 +115,14 @@ export default function VapiVoiceWidget({ isOpen, onClose }) {
       setErrorMessage('');
       setTranscript([]);
 
-      if (!vapiRef.current || vapiRef.current.publicKey !== publicKey) {
+      if (!vapiRef.current && typeof window !== 'undefined') {
+        const { default: Vapi } = await import('@vapi-ai/web');
         vapiRef.current = new Vapi(publicKey);
       }
 
-      await vapiRef.current.start(assistantId);
+      if (vapiRef.current) {
+        await vapiRef.current.start(assistantId);
+      }
     } catch (err) {
       console.error('Start call error:', err);
       setErrorMessage(err?.message || 'Failed to connect to voice assistant.');

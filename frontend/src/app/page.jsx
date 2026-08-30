@@ -1,13 +1,18 @@
 'use client';
 
 import React, { useState } from 'react';
+import dynamic from 'next/dynamic';
 import Navbar from '../components/Navbar';
 import HeroSection from '../components/HeroSection';
 import ValuePropsSection from '../components/ValuePropsSection';
 import ServicesSection from '../components/ServicesSection';
 import FaqSection from '../components/FaqSection';
 import Footer from '../components/Footer';
-import VapiVoiceWidget from '../components/VapiVoiceWidget';
+
+// Load Vapi Web SDK Voice Widget dynamically on client-side only (prevents SSR build errors)
+const VapiVoiceWidget = dynamic(() => import('../components/VapiVoiceWidget'), {
+  ssr: false
+});
 
 export default function HomePage() {
   const [isVoiceOpen, setIsVoiceOpen] = useState(false);

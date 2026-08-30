@@ -2,11 +2,11 @@ const Groq = require('groq-sdk');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 const logger = require('./logger');
 
-// Model pipeline definition: Prioritized order with active, verified models
+// Model pipeline definition: Prioritized order with fast, native tool-calling models
 const DEFAULT_PIPELINE = [
-  { provider: 'groq', model: 'openai/gpt-oss-120b' },
+  { provider: 'groq', model: 'qwen/qwen3.8-27b' },
   { provider: 'groq', model: 'llama-3.3-70b-versatile' },
-  { provider: 'groq', model: 'llama-3.1-70b-versatile' },
+  { provider: 'groq', model: 'openai/gpt-oss-120b' },
   { provider: 'gemini', model: 'gemini-3.6-flash' },
   { provider: 'gemini', model: 'gemini-2.0-flash' }
 ];
@@ -370,6 +370,12 @@ async function handleChatStream(res, body, customPipeline = null) {
         });
 
         for await (const chunk of stream) {
+          const choice = chunk.choices?.[0];
+          // Filter out internal reasoning-only chunks to prevent Vapi voice stream silence
+          if (choice?.delta?.reasoning && !choice?.delta?.content && !choice?.delta?.tool_calls) {
+            continue;
+          }
+
           streamStarted = true;
           res.write(`data: ${JSON.stringify(chunk)}\n\n`);
         }

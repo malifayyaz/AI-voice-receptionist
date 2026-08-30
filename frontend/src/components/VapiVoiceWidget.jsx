@@ -5,7 +5,6 @@ import React, { useState, useEffect, useRef } from 'react';
 export default function VapiVoiceWidget({ isOpen, onClose }) {
   const [callState, setCallState] = useState('idle'); // idle | connecting | active | error
   const [isMuted, setIsMuted] = useState(false);
-  const [transcript, setTranscript] = useState([]);
   const [volumeLevel, setVolumeLevel] = useState(0);
   const [errorMessage, setErrorMessage] = useState('');
   const [customPublicKey, setCustomPublicKey] = useState('');
@@ -62,15 +61,6 @@ export default function VapiVoiceWidget({ isOpen, onClose }) {
               setVolumeLevel(vol || 0);
             });
 
-            vapiInstance.on('message', (msg) => {
-              if (msg.type === 'transcript') {
-                setTranscript((prev) => [
-                  ...prev.slice(-6),
-                  { role: msg.role, text: msg.transcript }
-                ]);
-              }
-            });
-
             vapiInstance.on('error', (err) => {
               console.error('Vapi Error:', err);
               setErrorMessage(err?.message || 'Connection issue with Vapi voice service.');
@@ -113,7 +103,6 @@ export default function VapiVoiceWidget({ isOpen, onClose }) {
     try {
       setCallState('connecting');
       setErrorMessage('');
-      setTranscript([]);
 
       if (!vapiRef.current && typeof window !== 'undefined') {
         const { default: Vapi } = await import('@vapi-ai/web');
@@ -160,9 +149,9 @@ export default function VapiVoiceWidget({ isOpen, onClose }) {
         alignItems: 'center',
         justifyContent: 'center',
         padding: '20px',
-        background: 'rgba(5, 8, 20, 0.82)',
-        backdropFilter: 'blur(12px)',
-        WebkitBackdropFilter: 'blur(12px)'
+        background: 'rgba(5, 5, 7, 0.85)',
+        backdropFilter: 'blur(16px)',
+        WebkitBackdropFilter: 'blur(16px)'
       }}
       onClick={(e) => {
         if (e.target === e.currentTarget && callState !== 'active') {
@@ -171,30 +160,31 @@ export default function VapiVoiceWidget({ isOpen, onClose }) {
       }}
     >
       <div
-        className="glass-panel"
         style={{
           width: '100%',
-          maxWidth: '480px',
-          padding: '36px 28px',
+          maxWidth: '440px',
+          padding: '40px 32px 36px 32px',
           position: 'relative',
-          background: '#0D152D',
-          border: '1px solid rgba(255, 255, 255, 0.14)',
-          boxShadow: '0 30px 60px -15px rgba(0, 0, 0, 0.8)'
+          background: '#0A0A0D',
+          borderRadius: '24px',
+          border: '1px solid rgba(255, 255, 255, 0.08)',
+          boxShadow: '0 32px 64px -16px rgba(0, 0, 0, 0.85)'
         }}
       >
-        {/* Close Button */}
+        {/* Subtle Close Button */}
         <button
           onClick={() => {
             if (callState === 'active') endCall();
             onClose();
           }}
+          aria-label="Close modal"
           style={{
             position: 'absolute',
-            top: '18px',
-            right: '18px',
-            background: 'rgba(255, 255, 255, 0.08)',
-            border: 'none',
-            color: '#94A3B8',
+            top: '20px',
+            right: '20px',
+            background: 'transparent',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            color: 'var(--text-muted)',
             width: '32px',
             height: '32px',
             borderRadius: '50%',
@@ -202,94 +192,74 @@ export default function VapiVoiceWidget({ isOpen, onClose }) {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            fontSize: '1.1rem'
+            fontSize: '1rem',
+            transition: 'all 0.15s ease'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.color = '#FFFFFF';
+            e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.25)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.color = 'var(--text-muted)';
+            e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)';
           }}
         >
           &times;
         </button>
 
-        {/* Header */}
-        <div style={{ textAlign: 'center', marginBottom: '28px' }}>
+        {/* Header with Understated Thin-Outline Icon */}
+        <div style={{ textAlign: 'center', marginBottom: '24px' }}>
           <div
             style={{
-              width: '80px',
-              height: '80px',
-              margin: '0 auto 16px auto',
+              width: '52px',
+              height: '52px',
+              margin: '0 auto 20px auto',
               borderRadius: '50%',
-              background: callState === 'active' 
-                ? 'linear-gradient(135deg, #10B981, #06B6D4)' 
-                : 'linear-gradient(135deg, #FF6559, #F59E0B)',
+              background: callState === 'active' ? 'rgba(16, 185, 129, 0.08)' : 'rgba(212, 103, 76, 0.06)',
+              border: `1px solid ${callState === 'active' ? 'rgba(16, 185, 129, 0.3)' : 'rgba(212, 103, 76, 0.3)'}`,
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              boxShadow: callState === 'active'
-                ? '0 0 30px rgba(16, 185, 129, 0.5)'
-                : '0 0 25px rgba(255, 101, 89, 0.4)',
+              color: callState === 'active' ? 'var(--accent-emerald)' : 'var(--accent-terracotta)',
               transition: 'all 0.3s ease'
             }}
           >
-            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
               <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
               <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
               <line x1="12" x2="12" y1="19" y2="22"/>
             </svg>
           </div>
 
-          <h3 style={{ fontSize: '1.4rem', color: '#FFFFFF', fontWeight: 700, marginBottom: '4px' }}>
+          {/* Heading in Fraunces Serif (Same font as Hero H1) */}
+          <h3
+            style={{
+              fontFamily: 'var(--font-serif)',
+              fontSize: '1.65rem',
+              color: '#FFFFFF',
+              fontWeight: 400,
+              letterSpacing: '-0.02em',
+              marginBottom: '6px'
+            }}
+          >
             Maya &bull; AI Receptionist
           </h3>
-          <p style={{ fontSize: '0.88rem', color: '#94A3B8' }}>
-            City Dental Clinic &bull; Live Voice Booking
+          <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>
+            CITY DENTAL CLINIC &bull; LIVE VOICE
           </p>
         </div>
 
-        {/* Live Audio Visualizer / Status */}
-        <div
-          style={{
-            background: 'rgba(255, 255, 255, 0.03)',
-            border: '1px solid rgba(255, 255, 255, 0.08)',
-            borderRadius: '16px',
-            padding: '20px',
-            textAlign: 'center',
-            marginBottom: '28px'
-          }}
-        >
+        {/* Minimal Unboxed Status / Audio Display */}
+        <div style={{ textAlign: 'center', marginBottom: '32px' }}>
           {callState === 'idle' && (
-            <div>
-              <p style={{ fontSize: '0.92rem', color: '#CBD5E1', marginBottom: '8px' }}>
-                Ready to speak with you. Ask about availability, procedures, or book your visit.
-              </p>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px' }}>
-                <span style={{ fontSize: '0.78rem', color: '#10B981', fontWeight: 600 }}>
-                  &bull; Online &bull; Direct Browser Audio
-                </span>
-                <button
-                  onClick={() => setShowConfig(!showConfig)}
-                  style={{
-                    background: 'transparent',
-                    border: 'none',
-                    color: '#64748B',
-                    fontSize: '0.75rem',
-                    textDecoration: 'underline',
-                    cursor: 'pointer'
-                  }}
-                >
-                  {publicKey && assistantId ? 'Edit Vapi Key / ID' : 'Set Vapi Keys'}
-                </button>
-              </div>
-            </div>
+            <p style={{ fontSize: '0.92rem', color: 'var(--text-body)', lineHeight: 1.6, maxWidth: '340px', margin: '0 auto' }}>
+              Speak naturally to check real-time availability, ask about fees, or schedule your visit.
+            </p>
           )}
 
           {callState === 'connecting' && (
-            <div style={{ padding: '10px 0' }}>
-              <div style={{ display: 'flex', justifyContent: 'center', gap: '5px', marginBottom: '12px' }}>
-                <span className="wave-bar" style={{ height: '18px' }} />
-                <span className="wave-bar" style={{ height: '26px' }} />
-                <span className="wave-bar" style={{ height: '14px' }} />
-                <span className="wave-bar" style={{ height: '22px' }} />
-                <span className="wave-bar" style={{ height: '10px' }} />
-              </div>
-              <p style={{ fontSize: '0.92rem', color: '#FF7D73', fontWeight: 600 }}>
+            <div style={{ padding: '8px 0' }}>
+              <p style={{ fontSize: '0.9rem', color: 'var(--accent-terracotta)', fontWeight: 500 }}>
                 Connecting to Maya...
               </p>
             </div>
@@ -297,152 +267,124 @@ export default function VapiVoiceWidget({ isOpen, onClose }) {
 
           {callState === 'active' && (
             <div>
-              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '6px', height: '36px', marginBottom: '12px' }}>
-                {[14, 28, 40, 24, 34, 18, 30].map((h, i) => (
+              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '5px', height: '32px', marginBottom: '10px' }}>
+                {[12, 24, 36, 20, 30, 16, 26].map((h, i) => (
                   <span
                     key={i}
                     style={{
-                      width: '4px',
-                      height: `${Math.max(6, Math.min(36, h * (volumeLevel > 0.1 ? 1 : 0.3)))}px`,
-                      background: '#10B981',
+                      width: '3px',
+                      height: `${Math.max(4, Math.min(32, h * (volumeLevel > 0.1 ? 1 : 0.35)))}px`,
+                      background: 'var(--accent-emerald)',
                       borderRadius: '99px',
                       transition: 'height 0.1s ease'
                     }}
                   />
                 ))}
               </div>
-              <p style={{ fontSize: '0.92rem', color: '#10B981', fontWeight: 700 }}>
+              <p style={{ fontSize: '0.88rem', color: 'var(--accent-emerald)', fontWeight: 500 }}>
                 Call in progress &bull; Speak clearly into your mic
               </p>
             </div>
           )}
 
           {callState === 'error' && (
-            <div style={{ color: '#EF4444', fontSize: '0.88rem' }}>
-              <p style={{ fontWeight: 600, marginBottom: '6px' }}>{errorMessage || 'Connection Error'}</p>
-              <button
-                onClick={() => setShowConfig(true)}
-                style={{
-                  background: 'transparent',
-                  border: 'none',
-                  color: '#FF6559',
-                  textDecoration: 'underline',
-                  fontSize: '0.8rem',
-                  cursor: 'pointer'
-                }}
-              >
-                Configure Vapi Keys
-              </button>
+            <div style={{ color: '#EF4444', fontSize: '0.85rem' }}>
+              <p>{errorMessage || 'Connection issue'}</p>
             </div>
           )}
         </div>
 
-        {/* Configuration Modal (Persistent to localStorage) */}
+        {/* Subtle Config Box (Only shown if keys missing) */}
         {showConfig && (
           <div
             style={{
-              background: 'rgba(255, 255, 255, 0.05)',
-              border: '1px solid rgba(255, 255, 255, 0.12)',
+              background: 'var(--bg-subtle)',
+              border: '1px solid var(--border-hairline)',
               borderRadius: '12px',
               padding: '16px',
               marginBottom: '20px'
             }}
           >
-            <p style={{ fontSize: '0.8rem', color: '#CBD5E1', marginBottom: '10px', fontWeight: 600 }}>
-              Enter your Vapi credentials (saved permanently in your browser):
+            <p style={{ fontSize: '0.78rem', color: 'var(--text-body)', marginBottom: '8px' }}>
+              Enter Vapi Credentials:
             </p>
             <input
               type="text"
-              placeholder="Vapi Public Key (e.g. 255cdadf-...)"
+              placeholder="Vapi Public Key"
               value={customPublicKey}
               onChange={(e) => setCustomPublicKey(e.target.value)}
               style={{
                 width: '100%',
-                padding: '8px 12px',
-                borderRadius: '8px',
-                background: '#070B19',
-                border: '1px solid rgba(255, 255, 255, 0.15)',
+                padding: '8px 10px',
+                borderRadius: '6px',
+                background: 'var(--bg-deep)',
+                border: '1px solid var(--border-hairline)',
                 color: '#FFFFFF',
-                fontSize: '0.82rem',
-                marginBottom: '8px'
+                fontSize: '0.8rem',
+                marginBottom: '6px'
               }}
             />
             <input
               type="text"
-              placeholder="Vapi Assistant ID (e.g. 17e9...)"
+              placeholder="Vapi Assistant ID"
               value={customAssistantId}
               onChange={(e) => setCustomAssistantId(e.target.value)}
               style={{
                 width: '100%',
-                padding: '8px 12px',
-                borderRadius: '8px',
-                background: '#070B19',
-                border: '1px solid rgba(255, 255, 255, 0.15)',
+                padding: '8px 10px',
+                borderRadius: '6px',
+                background: 'var(--bg-deep)',
+                border: '1px solid var(--border-hairline)',
                 color: '#FFFFFF',
-                fontSize: '0.82rem',
+                fontSize: '0.8rem',
                 marginBottom: '10px'
               }}
             />
             <button
               onClick={handleSaveCredentials}
-              style={{
-                padding: '8px 16px',
-                borderRadius: '8px',
-                background: '#10B981',
-                border: 'none',
-                color: '#FFFFFF',
-                fontSize: '0.82rem',
-                fontWeight: 700,
-                cursor: 'pointer'
-              }}
+              className="btn-matte"
+              style={{ padding: '6px 14px', fontSize: '0.78rem' }}
             >
-              Save Permanently
+              Save
             </button>
           </div>
         )}
 
-        {/* Action Buttons */}
-        <div style={{ display: 'flex', gap: '12px' }}>
+        {/* Actions (Matte terracotta CTA matching Hero button) */}
+        <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
           {callState !== 'active' ? (
             <button
               onClick={startCall}
               disabled={callState === 'connecting'}
-              className="btn-pulse-glow"
+              className="btn-matte"
               style={{
-                flex: 1,
-                padding: '16px',
-                borderRadius: '14px',
-                border: 'none',
-                cursor: 'pointer',
-                fontSize: '1rem',
-                fontWeight: 700,
-                display: 'flex',
+                width: '100%',
+                padding: '13px 28px',
+                fontSize: '0.94rem',
+                display: 'inline-flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: '10px'
+                gap: '8px'
               }}
             >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
               </svg>
-              {callState === 'connecting' ? 'Connecting...' : 'Start Voice Call'}
+              <span>{callState === 'connecting' ? 'Connecting...' : 'Start Voice Call'}</span>
             </button>
           ) : (
             <>
               <button
                 onClick={toggleMute}
                 style={{
-                  padding: '14px 18px',
-                  borderRadius: '14px',
-                  background: isMuted ? 'rgba(239, 68, 68, 0.2)' : 'rgba(255, 255, 255, 0.08)',
-                  border: '1px solid rgba(255, 255, 255, 0.15)',
+                  padding: '12px 18px',
+                  borderRadius: '99px',
+                  background: isMuted ? 'rgba(239, 68, 68, 0.15)' : 'var(--bg-subtle)',
+                  border: '1px solid var(--border-hairline)',
                   color: isMuted ? '#EF4444' : '#FFFFFF',
                   cursor: 'pointer',
-                  fontSize: '0.9rem',
-                  fontWeight: 600,
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '6px'
+                  fontSize: '0.88rem',
+                  fontWeight: 500
                 }}
               >
                 {isMuted ? 'Unmute' : 'Mute'}
@@ -452,25 +394,25 @@ export default function VapiVoiceWidget({ isOpen, onClose }) {
                 onClick={endCall}
                 style={{
                   flex: 1,
-                  padding: '14px',
-                  borderRadius: '14px',
-                  background: '#EF4444',
+                  padding: '12px 24px',
+                  borderRadius: '99px',
+                  background: '#DC2626',
                   border: 'none',
                   color: '#FFFFFF',
                   cursor: 'pointer',
-                  fontSize: '1rem',
-                  fontWeight: 700,
+                  fontSize: '0.9rem',
+                  fontWeight: 500,
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  gap: '8px'
+                  gap: '6px'
                 }}
               >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="18" x2="6" y1="6" y2="18"/>
-                  <line x1="6" x2="18" y1="6" y2="18"/>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="18" y1="6" x2="6" y2="18"/>
+                  <line x1="6" y1="6" x2="18" y2="18"/>
                 </svg>
-                End Call
+                <span>End Call</span>
               </button>
             </>
           )}

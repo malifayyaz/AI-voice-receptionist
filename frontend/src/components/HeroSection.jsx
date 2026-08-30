@@ -1,12 +1,13 @@
 'use client';
 
 import React from 'react';
+import AmbientCanvasBackground from './AmbientCanvasBackground';
 
 export default function HeroSection({ onOpenVoice }) {
   return (
     <section
       style={{
-        paddingTop: '160px',
+        paddingTop: '165px',
         paddingBottom: '120px',
         position: 'relative',
         background: 'var(--bg-deep)',
@@ -14,33 +15,34 @@ export default function HeroSection({ onOpenVoice }) {
         textAlign: 'center'
       }}
     >
-      {/* Soft, blurred radial glow positioned behind the headline only */}
+      {/* 3D / Fluid Ambient Canvas Animation Layer */}
+      <AmbientCanvasBackground />
+
+      {/* Soft, blurred radial amber glow positioned directly behind headline */}
       <div
         style={{
           position: 'absolute',
-          top: '30%',
+          top: '32%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          width: '540px',
+          width: '560px',
           height: '380px',
           borderRadius: '50%',
-          background: 'radial-gradient(ellipse at center, rgba(212, 103, 76, 0.07) 0%, rgba(212, 103, 76, 0.02) 45%, transparent 75%)',
-          filter: 'blur(40px)',
+          background: 'radial-gradient(ellipse at center, rgba(212, 103, 76, 0.08) 0%, rgba(212, 103, 76, 0.02) 50%, transparent 75%)',
+          filter: 'blur(45px)',
           pointerEvents: 'none',
-          zIndex: 0
+          zIndex: 1
         }}
       />
 
-      {/* Subtle abstract ambient grain overlay */}
+      {/* Subtle vignette layer ensuring pure black edges and maximum text contrast */}
       <div
         style={{
           position: 'absolute',
           inset: 0,
-          backgroundImage: 'radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px)',
-          backgroundSize: '40px 40px',
-          opacity: 0.35,
+          background: 'radial-gradient(circle at 50% 40%, transparent 30%, var(--bg-deep) 90%)',
           pointerEvents: 'none',
-          zIndex: 0
+          zIndex: 1
         }}
       />
 
@@ -50,13 +52,13 @@ export default function HeroSection({ onOpenVoice }) {
           margin: '0 auto',
           padding: '0 24px',
           position: 'relative',
-          zIndex: 1,
+          zIndex: 2,
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center'
         }}
       >
-        {/* Whisper-quiet status line (Minimal, no thick border box) */}
+        {/* Whisper-quiet status line */}
         <div
           style={{
             display: 'inline-flex',
@@ -73,7 +75,7 @@ export default function HeroSection({ onOpenVoice }) {
           <span>MAYA 2.0 &bull; 24/7 VOICE CONCIERGE</span>
         </div>
 
-        {/* Dominant Editorial Serif H1 (Midday scale) */}
+        {/* Dominant Editorial Serif H1 */}
         <h1
           style={{
             fontFamily: 'var(--font-serif)',
@@ -89,7 +91,7 @@ export default function HeroSection({ onOpenVoice }) {
           Dentistry without the hold music.
         </h1>
 
-        {/* Refined, constrained subtext */}
+        {/* Refined subtext */}
         <p
           style={{
             fontSize: 'clamp(1.02rem, 1.8vw, 1.15rem)',
@@ -103,7 +105,7 @@ export default function HeroSection({ onOpenVoice }) {
           City Dental Clinic pairs world-class clinical craft with an intelligent voice receptionist that books appointments in real-time.
         </p>
 
-        {/* Single Refined Hero CTA Button (Matte terracotta, understated) */}
+        {/* Single Refined Hero CTA Button (Matte terracotta pill) */}
         <button
           onClick={onOpenVoice}
           className="btn-matte"
@@ -123,14 +125,14 @@ export default function HeroSection({ onOpenVoice }) {
           <span>Speak to Maya</span>
         </button>
 
-        {/* Minimal Footer-Style Horizontal Info Row (Generous breathing room, zero card borders) */}
+        {/* Minimal Horizontal Info Row */}
         <div
           style={{
             marginTop: '110px',
             paddingTop: '36px',
             borderTop: '1px solid var(--border-hairline)',
             width: '100%',
-            maxWidth: '720px',
+            maxWidth: '740px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -158,10 +160,10 @@ export default function HeroSection({ onOpenVoice }) {
             <span>12 Main Boulevard (Free Parking)</span>
           </div>
 
-          {/* Emergency note */}
+          {/* Availability */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <span style={{ width: '5px', height: '5px', borderRadius: '50%', background: 'var(--accent-emerald)' }} />
-            <span>24/7 Live Voice Scheduling</span>
+            <span>24/7 Voice Scheduling</span>
           </div>
         </div>
       </div>

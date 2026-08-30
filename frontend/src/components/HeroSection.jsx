@@ -1,37 +1,33 @@
 'use client';
 
-import React, { useState } from 'react';
-
-const TAGLINES = [
-  {
-    id: 1,
-    label: 'Option 1: Modern & Frictionless',
-    text: 'Dentistry without the hold music. Experience frictionless care.'
-  },
-  {
-    id: 2,
-    label: 'Option 2: Intelligent & Fast',
-    text: 'Modern dental care, booked in seconds with intelligent voice assistance.'
-  },
-  {
-    id: 3,
-    label: 'Option 3: Precision & Hospitality',
-    text: 'Where precision dental craft meets immediate, 24/7 hospitality.'
-  }
-];
+import React from 'react';
 
 export default function HeroSection({ onOpenVoice }) {
-  const [activeTaglineIndex, setActiveTaglineIndex] = useState(0);
-
   return (
     <section
       style={{
-        paddingTop: '130px',
-        paddingBottom: '80px',
-        position: 'relative'
+        paddingTop: '140px',
+        paddingBottom: '90px',
+        position: 'relative',
+        overflow: 'hidden'
       }}
-      className="bg-mesh"
+      className="bg-ambient-hero"
     >
+      {/* Subtle Radial Glow behind headline */}
+      <div
+        style={{
+          position: 'absolute',
+          top: '20%',
+          left: '15%',
+          width: '420px',
+          height: '420px',
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(217, 101, 75, 0.08) 0%, transparent 70%)',
+          pointerEvents: 'none',
+          zIndex: 0
+        }}
+      />
+
       <div
         style={{
           maxWidth: '1200px',
@@ -39,11 +35,13 @@ export default function HeroSection({ onOpenVoice }) {
           padding: '0 24px',
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-          gap: '48px',
-          alignItems: 'center'
+          gap: '56px',
+          alignItems: 'center',
+          position: 'relative',
+          zIndex: 1
         }}
       >
-        {/* Left Column: Headlines & Copy */}
+        {/* Left Column: Headlines & Single Unified CTA */}
         <div>
           {/* Top Status Pill */}
           <div
@@ -51,11 +49,11 @@ export default function HeroSection({ onOpenVoice }) {
               display: 'inline-flex',
               alignItems: 'center',
               gap: '10px',
-              padding: '6px 16px',
+              padding: '6px 14px',
               borderRadius: '99px',
-              background: 'rgba(255, 101, 89, 0.1)',
-              border: '1px solid rgba(255, 101, 89, 0.25)',
-              marginBottom: '24px'
+              background: 'rgba(217, 101, 75, 0.08)',
+              border: '1px solid rgba(217, 101, 75, 0.22)',
+              marginBottom: '28px'
             }}
           >
             <span
@@ -71,9 +69,9 @@ export default function HeroSection({ onOpenVoice }) {
             </span>
             <span
               style={{
-                fontSize: '0.8rem',
-                fontWeight: 700,
-                color: '#FF6559',
+                fontSize: '0.78rem',
+                fontWeight: 600,
+                color: '#D9654B',
                 letterSpacing: '0.04em',
                 textTransform: 'uppercase'
               }}
@@ -82,102 +80,59 @@ export default function HeroSection({ onOpenVoice }) {
             </span>
           </div>
 
-          {/* Main Headline */}
+          {/* Main Headline (Dominant, commanding serif) */}
           <h1
             style={{
-              fontSize: 'clamp(2.4rem, 4.5vw, 3.6rem)',
-              lineHeight: 1.15,
+              fontSize: 'clamp(2.6rem, 5.2vw, 4.0rem)',
+              lineHeight: 1.12,
               fontWeight: 700,
               color: '#FFFFFF',
-              marginBottom: '20px'
+              marginBottom: '18px',
+              letterSpacing: '-0.025em'
             }}
           >
             City Dental Clinic
           </h1>
 
-          {/* Tagline Box with Switcher */}
-          <div
+          {/* Tagline (Noticeably smaller, lighter weight for clear hierarchy) */}
+          <p
             style={{
-              background: 'rgba(255, 255, 255, 0.03)',
-              border: '1px solid rgba(255, 255, 255, 0.08)',
-              borderRadius: '16px',
-              padding: '18px 20px',
-              marginBottom: '32px'
+              fontFamily: 'var(--font-sans)',
+              fontSize: 'clamp(1.02rem, 1.8vw, 1.15rem)',
+              color: '#CBD5E1',
+              lineHeight: 1.6,
+              fontWeight: 400,
+              marginBottom: '36px',
+              maxWidth: '540px'
             }}
           >
-            <p
-              style={{
-                fontFamily: 'var(--font-serif)',
-                fontSize: 'clamp(1.1rem, 2vw, 1.35rem)',
-                color: '#E2E8F0',
-                fontStyle: 'italic',
-                lineHeight: 1.4,
-                marginBottom: '14px',
-                minHeight: '44px'
-              }}
-            >
-              &ldquo;{TAGLINES[activeTaglineIndex].text}&rdquo;
-            </p>
+            Dentistry without the hold music. Experience frictionless, patient-first care backed by instant 24/7 voice scheduling.
+          </p>
 
-            {/* Switch Tagline Options */}
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                flexWrap: 'wrap'
-              }}
-            >
-              <span style={{ fontSize: '0.75rem', color: '#64748B', fontWeight: 600 }}>Tagline Options:</span>
-              {TAGLINES.map((t, idx) => (
-                <button
-                  key={t.id}
-                  onClick={() => setActiveTaglineIndex(idx)}
-                  style={{
-                    padding: '4px 10px',
-                    borderRadius: '6px',
-                    fontSize: '0.75rem',
-                    fontWeight: 600,
-                    cursor: 'pointer',
-                    border: '1px solid',
-                    background: activeTaglineIndex === idx ? '#FF6559' : 'rgba(255, 255, 255, 0.05)',
-                    color: activeTaglineIndex === idx ? '#FFFFFF' : '#94A3B8',
-                    borderColor: activeTaglineIndex === idx ? '#FF6559' : 'rgba(255, 255, 255, 0.1)',
-                    transition: 'all 0.15s'
-                  }}
-                >
-                  Option {t.id}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Call to Actions */}
+          {/* Primary Action Button Row (One primary button + secondary link) */}
           <div
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '16px',
+              gap: '18px',
               flexWrap: 'wrap',
-              marginBottom: '36px'
+              marginBottom: '48px'
             }}
           >
             <button
               onClick={onOpenVoice}
-              className="btn-pulse-glow"
+              className="btn-primary"
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '10px',
-                padding: '14px 30px',
-                borderRadius: '99px',
-                border: 'none',
-                cursor: 'pointer',
-                fontSize: '1rem',
-                fontWeight: 700
+                padding: '14px 28px',
+                borderRadius: '12px',
+                fontSize: '0.98rem',
+                fontWeight: 600
               }}
             >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
                 <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
                 <line x1="12" x2="12" y1="19" y2="22"/>
@@ -188,40 +143,48 @@ export default function HeroSection({ onOpenVoice }) {
             <a
               href="#services"
               style={{
-                color: '#E2E8F0',
+                color: '#94A3B8',
                 textDecoration: 'none',
-                fontSize: '0.92rem',
-                fontWeight: 600,
-                padding: '13px 22px',
-                borderRadius: '99px',
-                background: 'rgba(255, 255, 255, 0.05)',
-                border: '1px solid rgba(255, 255, 255, 0.12)',
-                transition: 'all 0.15s'
+                fontSize: '0.9rem',
+                fontWeight: 500,
+                padding: '12px 18px',
+                borderRadius: '10px',
+                background: 'rgba(255, 255, 255, 0.03)',
+                border: '1px solid rgba(255, 255, 255, 0.08)',
+                transition: 'all 0.2s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = '#FFFFFF';
+                e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.18)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = '#94A3B8';
+                e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.08)';
               }}
             >
-              View Procedures &amp; Rates &rarr;
+              Procedures &amp; Rates &rarr;
             </a>
           </div>
 
-          {/* Quick Clinic Badges */}
+          {/* Quick Clinic Badges with Generous Breathing Room */}
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
-              gap: '16px',
-              paddingTop: '20px',
-              borderTop: '1px solid rgba(255, 255, 255, 0.08)'
+              gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+              gap: '24px',
+              paddingTop: '28px',
+              borderTop: '1px solid rgba(255, 255, 255, 0.07)'
             }}
           >
             {/* Hours */}
-            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
               <div
                 style={{
-                  width: '30px',
-                  height: '30px',
+                  width: '32px',
+                  height: '32px',
                   borderRadius: '8px',
-                  background: 'rgba(16, 185, 129, 0.1)',
-                  border: '1px solid rgba(16, 185, 129, 0.2)',
+                  background: 'rgba(16, 185, 129, 0.08)',
+                  border: '1px solid rgba(16, 185, 129, 0.18)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -229,27 +192,27 @@ export default function HeroSection({ onOpenVoice }) {
                   flexShrink: 0
                 }}
               >
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <circle cx="12" cy="12" r="10"/>
                   <polyline points="12 6 12 12 16 14"/>
                 </svg>
               </div>
               <div>
-                <span style={{ fontSize: '0.72rem', color: '#64748B', textTransform: 'uppercase', fontWeight: 700, display: 'block' }}>Clinic Hours</span>
-                <span style={{ fontSize: '0.85rem', color: '#F1F5F9', fontWeight: 600 }}>Mon–Sat: 9:00 AM – 6:00 PM</span>
+                <span style={{ fontSize: '0.72rem', color: '#64748B', textTransform: 'uppercase', fontWeight: 600, display: 'block', letterSpacing: '0.04em' }}>Clinic Hours</span>
+                <span style={{ fontSize: '0.88rem', color: '#F1F5F9', fontWeight: 600, display: 'block', marginTop: '2px' }}>Mon–Sat: 9:00 AM – 6:00 PM</span>
                 <span style={{ fontSize: '0.75rem', color: '#94A3B8', display: 'block' }}>Closed Sundays</span>
               </div>
             </div>
 
             {/* Address */}
-            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
               <div
                 style={{
-                  width: '30px',
-                  height: '30px',
+                  width: '32px',
+                  height: '32px',
                   borderRadius: '8px',
-                  background: 'rgba(6, 182, 212, 0.1)',
-                  border: '1px solid rgba(6, 182, 212, 0.2)',
+                  background: 'rgba(6, 182, 212, 0.08)',
+                  border: '1px solid rgba(6, 182, 212, 0.18)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -257,64 +220,68 @@ export default function HeroSection({ onOpenVoice }) {
                   flexShrink: 0
                 }}
               >
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
                   <circle cx="12" cy="10" r="3"/>
                 </svg>
               </div>
               <div>
-                <span style={{ fontSize: '0.72rem', color: '#64748B', textTransform: 'uppercase', fontWeight: 700, display: 'block' }}>Location</span>
-                <span style={{ fontSize: '0.85rem', color: '#F1F5F9', fontWeight: 600 }}>12 Main Boulevard</span>
-                <span style={{ fontSize: '0.75rem', color: '#94A3B8', display: 'block' }}>Free Valet &amp; Parking</span>
+                <span style={{ fontSize: '0.72rem', color: '#64748B', textTransform: 'uppercase', fontWeight: 600, display: 'block', letterSpacing: '0.04em' }}>Location</span>
+                <span style={{ fontSize: '0.88rem', color: '#F1F5F9', fontWeight: 600, display: 'block', marginTop: '2px' }}>12 Main Boulevard</span>
+                <span style={{ fontSize: '0.75rem', color: '#94A3B8', display: 'block' }}>Dedicated Patient Parking</span>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Right Column: Interactive Voice Preview Card */}
+        {/* Right Column: Purely Illustrative Chat Mockup (No Redundant Button) */}
         <div>
           <div
             className="glass-panel"
             style={{
-              padding: '32px 28px',
+              padding: '32px 26px',
               position: 'relative',
-              boxShadow: '0 20px 40px -10px rgba(0, 0, 0, 0.5)'
+              borderRadius: '24px',
+              background: 'rgba(11, 18, 38, 0.85)',
+              border: '1px solid rgba(255, 255, 255, 0.09)',
+              boxShadow: '0 24px 48px -12px rgba(0, 0, 0, 0.55), 0 4px 12px rgba(0, 0, 0, 0.25)'
             }}
           >
-            {/* Top Badge */}
+            {/* Top Assistant Header */}
             <div
               style={{
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
-                marginBottom: '20px',
+                marginBottom: '22px',
                 paddingBottom: '16px',
-                borderBottom: '1px solid rgba(255, 255, 255, 0.08)'
+                borderBottom: '1px solid rgba(255, 255, 255, 0.07)'
               }}
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                 <div
                   style={{
-                    width: '44px',
-                    height: '44px',
-                    borderRadius: '50%',
-                    background: 'linear-gradient(135deg, #FF6559, #F59E0B)',
+                    width: '42px',
+                    height: '42px',
+                    borderRadius: '12px',
+                    background: 'linear-gradient(135deg, #D9654B, #8B3E2C)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     color: '#FFFFFF',
                     fontWeight: 700,
-                    fontSize: '1.1rem',
+                    fontSize: '1rem',
+                    boxShadow: '0 4px 12px rgba(217, 101, 75, 0.25)',
                     flexShrink: 0
                   }}
                 >
                   M
                 </div>
                 <div>
-                  <h4 style={{ fontSize: '1rem', color: '#FFFFFF', fontWeight: 700 }}>Maya</h4>
-                  <p style={{ fontSize: '0.78rem', color: '#10B981', display: 'flex', alignItems: 'center', gap: '5px' }}>
+                  <h4 style={{ fontSize: '0.98rem', color: '#FFFFFF', fontWeight: 600 }}>Maya</h4>
+                  <p style={{ fontSize: '0.76rem', color: '#10B981', display: 'flex', alignItems: 'center', gap: '5px', marginTop: '1px' }}>
                     <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#10B981' }} />
-                    AI Receptionist &bull; Online
+                    Live Voice Receptionist
                   </p>
                 </div>
               </div>
@@ -322,112 +289,85 @@ export default function HeroSection({ onOpenVoice }) {
               <span
                 style={{
                   fontSize: '0.72rem',
-                  padding: '4px 10px',
-                  borderRadius: '99px',
-                  background: 'rgba(255, 255, 255, 0.06)',
+                  padding: '3px 10px',
+                  borderRadius: '6px',
+                  background: 'rgba(255, 255, 255, 0.05)',
                   color: '#94A3B8',
                   fontFamily: 'var(--font-mono)'
                 }}
               >
-                24/7 Service
+                Real-time Audio
               </span>
             </div>
 
-            {/* Conversation Mock Snippet */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '24px' }}>
+            {/* Conversation Flow (Varied organic bubble radius) */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', marginBottom: '22px' }}>
               <div
                 style={{
                   alignSelf: 'flex-start',
-                  background: 'rgba(255, 255, 255, 0.06)',
-                  borderRadius: '14px 14px 14px 4px',
-                  padding: '10px 16px',
-                  maxWidth: '90%',
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  border: '1px solid rgba(255, 255, 255, 0.06)',
+                  borderRadius: '16px 16px 16px 4px',
+                  padding: '12px 16px',
+                  maxWidth: '88%',
                   fontSize: '0.88rem',
-                  color: '#E2E8F0'
+                  color: '#E2E8F0',
+                  lineHeight: 1.5
                 }}
               >
-                &ldquo;Hello! Thank you for calling City Dental Clinic. How can I help you book today?&rdquo;
+                &ldquo;Hello! Thank you for calling City Dental Clinic. How can I help you today?&rdquo;
               </div>
 
               <div
                 style={{
                   alignSelf: 'flex-end',
-                  background: 'rgba(255, 101, 89, 0.18)',
-                  border: '1px solid rgba(255, 101, 89, 0.3)',
-                  borderRadius: '14px 14px 4px 14px',
-                  padding: '10px 16px',
+                  background: 'rgba(217, 101, 75, 0.14)',
+                  border: '1px solid rgba(217, 101, 75, 0.25)',
+                  borderRadius: '16px 16px 4px 16px',
+                  padding: '12px 16px',
                   maxWidth: '85%',
                   fontSize: '0.88rem',
-                  color: '#FFFFFF'
+                  color: '#FFFFFF',
+                  lineHeight: 1.5
                 }}
               >
-                &ldquo;Hi Maya, I&apos;d like to schedule a teeth cleaning for next Tuesday at 2 PM.&rdquo;
+                &ldquo;Hi Maya, I&apos;d like to schedule a teeth cleaning for Tuesday at 2 PM.&rdquo;
               </div>
 
               <div
                 style={{
                   alignSelf: 'flex-start',
-                  background: 'rgba(255, 255, 255, 0.06)',
-                  borderRadius: '14px 14px 14px 4px',
-                  padding: '10px 16px',
-                  maxWidth: '90%',
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  border: '1px solid rgba(255, 255, 255, 0.06)',
+                  borderRadius: '16px 16px 16px 4px',
+                  padding: '12px 16px',
+                  maxWidth: '88%',
                   fontSize: '0.88rem',
-                  color: '#E2E8F0'
+                  color: '#E2E8F0',
+                  lineHeight: 1.5
                 }}
               >
-                &ldquo;Tuesday at 2:00 PM is open! I have you down for Teeth Cleaning ($50). May I have your full name?&rdquo;
+                &ldquo;Tuesday at 2:00 PM is open! I have you down for Cleaning ($50). May I have your full name?&rdquo;
               </div>
             </div>
 
-            {/* Card Action Call */}
-            <button
-              onClick={onOpenVoice}
-              style={{
-                width: '100%',
-                padding: '13px',
-                borderRadius: '12px',
-                background: 'linear-gradient(135deg, rgba(255, 101, 89, 0.15), rgba(255, 101, 89, 0.05))',
-                border: '1px solid rgba(255, 101, 89, 0.4)',
-                color: '#FF7D73',
-                fontSize: '0.92rem',
-                fontWeight: 700,
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '8px',
-                transition: 'all 0.15s'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = '#FF6559';
-                e.currentTarget.style.color = '#FFFFFF';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = 'linear-gradient(135deg, rgba(255, 101, 89, 0.15), rgba(255, 101, 89, 0.05))';
-                e.currentTarget.style.color = '#FF7D73';
-              }}
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <polygon points="5 3 19 12 5 21 5 3"/>
-              </svg>
-              Try Speaking with Maya Now
-            </button>
-
-            {/* Integrated Trust Strip */}
+            {/* Purely Informational Status Footer (No redundant CTA button) */}
             <div
               style={{
-                marginTop: '16px',
-                paddingTop: '12px',
+                paddingTop: '14px',
                 borderTop: '1px solid rgba(255, 255, 255, 0.06)',
                 display: 'flex',
                 alignItems: 'center',
-                gap: '10px'
+                justifyContent: 'space-between',
+                fontSize: '0.78rem',
+                color: '#94A3B8'
               }}
             >
-              <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#10B981' }} />
-              <span style={{ fontSize: '0.8rem', color: '#94A3B8' }}>
-                Instant confirmation &amp; Google Sheets sync
+              <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#10B981' }} />
+                Instant Calendar &amp; Sheets Sync
               </span>
+              <span style={{ color: '#64748B', fontFamily: 'var(--font-mono)' }}>0.3s response</span>
             </div>
           </div>
         </div>

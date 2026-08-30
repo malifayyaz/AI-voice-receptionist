@@ -35,7 +35,7 @@ const SERVICES = [
     name: 'Emergency Dental Pain Relief',
     price: 'Immediate',
     tag: 'Urgent Care',
-    desc: 'Same-day appointments for acute toothache, chipped crowns, or sudden dental trauma.',
+    desc: 'Same-day priority appointments for acute toothache, chipped crowns, or sudden dental trauma.',
     duration: 'Priority'
   },
   {
@@ -62,11 +62,11 @@ export default function ServicesSection({ onOpenVoice }) {
       <div style={{ textAlign: 'center', maxWidth: '650px', margin: '0 auto 60px auto' }}>
         <span
           style={{
-            fontSize: '0.82rem',
-            fontWeight: 700,
-            color: '#FF6559',
+            fontSize: '0.8rem',
+            fontWeight: 600,
+            color: '#D9654B',
             textTransform: 'uppercase',
-            letterSpacing: '0.08em',
+            letterSpacing: '0.06em',
             display: 'block',
             marginBottom: '12px'
           }}
@@ -75,16 +75,16 @@ export default function ServicesSection({ onOpenVoice }) {
         </span>
         <h2
           style={{
-            fontSize: 'clamp(2rem, 3.5vw, 2.8rem)',
+            fontSize: 'clamp(2rem, 3.5vw, 2.7rem)',
             color: '#FFFFFF',
             lineHeight: 1.2,
             marginBottom: '16px'
           }}
         >
-          Comprehensive care with no surprise bills.
+          Comprehensive care with no surprise fees.
         </h2>
-        <p style={{ fontSize: '1.05rem', color: '#94A3B8', lineHeight: 1.6 }}>
-          Clear, honest pricing upfront. Book any service directly by speaking with Maya.
+        <p style={{ fontSize: '1.02rem', color: '#94A3B8', lineHeight: 1.6 }}>
+          Clear, honest rates upfront. Inquire about or book any procedure directly with Maya.
         </p>
       </div>
 
@@ -106,6 +106,7 @@ export default function ServicesSection({ onOpenVoice }) {
               flexDirection: 'column',
               justifyContent: 'space-between',
               position: 'relative',
+              borderRadius: '20px',
               transition: 'all 0.2s ease'
             }}
           >
@@ -121,19 +122,19 @@ export default function ServicesSection({ onOpenVoice }) {
               >
                 <span
                   style={{
-                    fontSize: '0.75rem',
-                    fontWeight: 700,
+                    fontSize: '0.72rem',
+                    fontWeight: 600,
                     textTransform: 'uppercase',
-                    letterSpacing: '0.06em',
+                    letterSpacing: '0.04em',
                     padding: '3px 10px',
                     borderRadius: '6px',
-                    background: 'rgba(255, 255, 255, 0.06)',
+                    background: 'rgba(255, 255, 255, 0.05)',
                     color: '#CBD5E1'
                   }}
                 >
                   {srv.tag}
                 </span>
-                <span style={{ fontSize: '0.82rem', color: '#64748B', fontFamily: 'var(--font-mono)' }}>
+                <span style={{ fontSize: '0.8rem', color: '#64748B', fontFamily: 'var(--font-mono)' }}>
                   {srv.duration}
                 </span>
               </div>
@@ -141,9 +142,9 @@ export default function ServicesSection({ onOpenVoice }) {
               {/* Title & Price */}
               <h3
                 style={{
-                  fontSize: '1.25rem',
+                  fontSize: '1.2rem',
                   color: '#FFFFFF',
-                  fontWeight: 700,
+                  fontWeight: 600,
                   marginBottom: '8px'
                 }}
               >
@@ -151,9 +152,9 @@ export default function ServicesSection({ onOpenVoice }) {
               </h3>
               <div
                 style={{
-                  fontSize: '1.65rem',
-                  fontWeight: 800,
-                  color: '#FF6559',
+                  fontSize: '1.6rem',
+                  fontWeight: 700,
+                  color: '#D9654B',
                   fontFamily: 'var(--font-serif)',
                   marginBottom: '14px'
                 }}
@@ -161,22 +162,22 @@ export default function ServicesSection({ onOpenVoice }) {
                 {srv.price}
               </div>
 
-              <p style={{ fontSize: '0.92rem', color: '#94A3B8', lineHeight: 1.55 }}>
+              <p style={{ fontSize: '0.9rem', color: '#94A3B8', lineHeight: 1.55 }}>
                 {srv.desc}
               </p>
             </div>
 
-            {/* Book CTA */}
+            {/* Book CTA Link */}
             <button
               onClick={onOpenVoice}
               style={{
                 marginTop: '24px',
                 padding: '10px 16px',
                 borderRadius: '10px',
-                background: 'rgba(255, 255, 255, 0.05)',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
+                background: 'rgba(255, 255, 255, 0.04)',
+                border: '1px solid rgba(255, 255, 255, 0.08)',
                 color: '#E2E8F0',
-                fontSize: '0.88rem',
+                fontSize: '0.86rem',
                 fontWeight: 600,
                 cursor: 'pointer',
                 display: 'flex',
@@ -185,12 +186,14 @@ export default function ServicesSection({ onOpenVoice }) {
                 transition: 'all 0.2s'
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.background = '#FF6559';
+                e.currentTarget.style.background = '#D9654B';
                 e.currentTarget.style.color = '#FFFFFF';
+                e.currentTarget.style.borderColor = '#D9654B';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.04)';
                 e.currentTarget.style.color = '#E2E8F0';
+                e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.08)';
               }}
             >
               <span>Book with Maya</span>

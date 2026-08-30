@@ -1,22 +1,38 @@
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..800;1,9..144,400..700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600&display=swap');
 
 :root {
-  --bg-deep: #070B19;
-  --bg-navy: #0D152D;
-  --bg-card: #121C3B;
-  --bg-card-hover: #18254D;
-  --accent-coral: #FF6559;
-  --accent-coral-hover: #FF7D73;
-  --accent-coral-glow: rgba(255, 101, 89, 0.35);
+  /* Layered Background Tonal Hierarchy */
+  --bg-deep: #050814;
+  --bg-navy: #090E1F;
+  --bg-card: #0E162E;
+  --bg-card-hover: #141F3F;
+  --bg-elevated: #182449;
+
+  /* Sophisticated, Muted Warm Terracotta (Calm & Clinical) */
+  --accent-terracotta: #D9654B;
+  --accent-terracotta-hover: #E3745C;
+  --accent-terracotta-muted: rgba(217, 101, 75, 0.12);
+  --accent-terracotta-border: rgba(217, 101, 75, 0.28);
+  --accent-terracotta-glow: rgba(217, 101, 75, 0.2);
+
+  /* Secondary Accents */
   --accent-teal: #10B981;
-  --accent-teal-glow: rgba(16, 185, 129, 0.25);
+  --accent-teal-muted: rgba(16, 185, 129, 0.12);
   --accent-cyan: #06B6D4;
+
+  /* Typography Colors */
   --text-pure: #FFFFFF;
   --text-headline: #F8FAFC;
-  --text-muted: #94A3B8;
+  --text-body: #94A3B8;
   --text-subtle: #64748B;
-  --border-subtle: rgba(255, 255, 255, 0.08);
-  --border-highlight: rgba(255, 255, 255, 0.16);
+
+  /* Subtle Borders & Shadows */
+  --border-subtle: rgba(255, 255, 255, 0.07);
+  --border-highlight: rgba(255, 255, 255, 0.14);
+  --shadow-card: 0 16px 36px -12px rgba(0, 0, 0, 0.45), 0 4px 12px rgba(0, 0, 0, 0.2);
+  --shadow-elevated: 0 24px 48px -14px rgba(0, 0, 0, 0.6), 0 8px 16px rgba(0, 0, 0, 0.25);
+
+  /* Fonts */
   --font-serif: 'Fraunces', Georgia, serif;
   --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: 'Space Grotesk', monospace;
@@ -48,54 +64,49 @@ h1, h2, h3, .font-serif {
   letter-spacing: -0.02em;
 }
 
-/* Luxury Mesh Gradient Background */
-.bg-mesh {
+/* Subtle Layered Ambient Gradient */
+.bg-ambient-hero {
   background: 
-    radial-gradient(circle at 15% 15%, rgba(255, 101, 89, 0.08) 0%, transparent 40%),
-    radial-gradient(circle at 85% 25%, rgba(6, 182, 212, 0.07) 0%, transparent 45%),
-    radial-gradient(circle at 50% 80%, rgba(16, 185, 129, 0.05) 0%, transparent 50%),
-    var(--bg-deep);
+    radial-gradient(ellipse 65% 55% at 20% 30%, rgba(217, 101, 75, 0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 55% 45% at 80% 20%, rgba(6, 182, 212, 0.05) 0%, transparent 60%),
+    linear-gradient(180deg, #050814 0%, #080D1D 50%, #050814 100%);
 }
 
-/* Glassmorphic Container */
+/* Soft Glassmorphic Card Container with Natural Depth */
 .glass-panel {
-  background: rgba(18, 28, 59, 0.65);
+  background: rgba(14, 22, 46, 0.72);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--border-subtle);
   border-radius: 20px;
+  box-shadow: var(--shadow-card);
 }
 
 .glass-panel:hover {
   border-color: var(--border-highlight);
 }
 
-/* Pulsing Voice Call Button - Pure box-shadow without transform layout shifts */
-@keyframes softPulseGlow {
-  0% {
-    box-shadow: 0 0 0 0 rgba(255, 101, 89, 0.5), 0 8px 20px -4px rgba(255, 101, 89, 0.4);
-  }
-  70% {
-    box-shadow: 0 0 0 10px rgba(255, 101, 89, 0), 0 8px 20px -4px rgba(255, 101, 89, 0.4);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(255, 101, 89, 0), 0 8px 20px -4px rgba(255, 101, 89, 0.4);
-  }
-}
-
-.btn-pulse-glow {
-  background: linear-gradient(135deg, var(--accent-coral), #E0483C);
+/* Single Consistent Primary Button - Calm & Polished */
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent-terracotta), #C4573F);
   color: #FFFFFF;
-  animation: softPulseGlow 3s infinite;
-  transition: opacity 0.2s ease, filter 0.2s ease;
-  will-change: box-shadow;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 16px var(--accent-terracotta-glow);
+  transition: all 0.2s ease;
+  cursor: pointer;
 }
 
-.btn-pulse-glow:hover {
-  filter: brightness(1.1);
+.btn-primary:hover {
+  background: linear-gradient(135deg, var(--accent-terracotta-hover), var(--accent-terracotta));
+  box-shadow: 0 6px 20px rgba(217, 101, 75, 0.35);
+  transform: translateY(-1px);
 }
 
-/* Audio Visualizer Waveform Animation using scaleY (NO height shifts/reflows) */
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+/* Equalizer Bars using GPU Transform scaleY (Zero Layout Shifts) */
 @keyframes waveScale {
   0%, 100% {
     transform: scaleY(0.4);
@@ -108,18 +119,17 @@ h1, h2, h3, .font-serif {
 .wave-bar {
   width: 3px;
   height: 14px;
-  background: var(--accent-coral);
+  background: var(--accent-terracotta);
   border-radius: 99px;
   display: inline-block;
   transform-origin: center;
-  animation: waveScale 1.2s ease-in-out infinite;
+  animation: waveScale 1.4s ease-in-out infinite;
   will-change: transform;
 }
 
-.wave-bar:nth-child(2) { animation-delay: 0.15s; }
-.wave-bar:nth-child(3) { animation-delay: 0.3s; }
-.wave-bar:nth-child(4) { animation-delay: 0.45s; }
-.wave-bar:nth-child(5) { animation-delay: 0.6s; }
+.wave-bar:nth-child(2) { animation-delay: 0.2s; }
+.wave-bar:nth-child(3) { animation-delay: 0.4s; }
+.wave-bar:nth-child(4) { animation-delay: 0.6s; }
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
@@ -132,10 +142,26 @@ h1, h2, h3, .font-serif {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.12);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.22);
+}
+
+/* Mobile Nav Drawer animation */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.mobile-menu-enter {
+  animation: slideDown 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }

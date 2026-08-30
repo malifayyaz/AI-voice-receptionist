@@ -15,6 +15,18 @@ export default function VapiVoiceWidget({ isOpen, onClose }) {
 
   const vapiRef = useRef(null);
 
+  // Load saved credentials from localStorage on mount
+  useEffect(() => {
+    try {
+      const savedKey = localStorage.getItem('vapi_public_key');
+      const savedAssistant = localStorage.getItem('vapi_assistant_id');
+      if (savedKey) setCustomPublicKey(savedKey);
+      if (savedAssistant) setCustomAssistantId(savedAssistant);
+    } catch (e) {
+      // ignore
+    }
+  }, []);
+
   const publicKey = customPublicKey || process.env.NEXT_PUBLIC_VAPI_PUBLIC_KEY || '';
   const assistantId = customAssistantId || process.env.NEXT_PUBLIC_VAPI_ASSISTANT_ID || '';
 
@@ -63,13 +75,23 @@ export default function VapiVoiceWidget({ isOpen, onClose }) {
         });
 
         return () => {
-          vapi.stop();
+          try {
+            vapi.stop();
+          } catch (e) {}
         };
       } catch (err) {
         console.error('Failed to init Vapi client:', err);
       }
     }
   }, [publicKey]);
+
+  const handleSaveCredentials = () => {
+    try {
+      if (customPublicKey) localStorage.setItem('vapi_public_key', customPublicKey.trim());
+      if (customAssistantId) localStorage.setItem('vapi_assistant_id', customAssistantId.trim());
+    } catch (e) {}
+    setShowConfig(false);
+  };
 
   const startCall = async () => {
     if (!publicKey || !assistantId) {
@@ -82,7 +104,7 @@ export default function VapiVoiceWidget({ isOpen, onClose }) {
       setErrorMessage('');
       setTranscript([]);
 
-      if (!vapiRef.current) {
+      if (!vapiRef.current || vapiRef.current.publicKey !== publicKey) {
         vapiRef.current = new Vapi(publicKey);
       }
 
@@ -96,7 +118,9 @@ export default function VapiVoiceWidget({ isOpen, onClose }) {
 
   const endCall = () => {
     if (vapiRef.current) {
-      vapiRef.current.stop();
+      try {
+        vapiRef.current.stop();
+      } catch (e) {}
     }
     setCallState('idle');
     setVolumeLevel(0);
@@ -190,7 +214,6 @@ export default function VapiVoiceWidget({ isOpen, onClose }) {
               transition: 'all 0.3s ease'
             }}
           >
-            {/* Mic / Voice Waves */}
             <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
               <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
@@ -222,9 +245,24 @@ export default function VapiVoiceWidget({ isOpen, onClose }) {
               <p style={{ fontSize: '0.92rem', color: '#CBD5E1', marginBottom: '8px' }}>
                 Ready to speak with you. Ask about availability, procedures, or book your visit.
               </p>
-              <span style={{ fontSize: '0.78rem', color: '#10B981', fontWeight: 600 }}>
-                &bull; Online &bull; Direct Browser Audio
-              </span>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px' }}>
+                <span style={{ fontSize: '0.78rem', color: '#10B981', fontWeight: 600 }}>
+                  &bull; Online &bull; Direct Browser Audio
+                </span>
+                <button
+                  onClick={() => setShowConfig(!showConfig)}
+                  style={{
+                    background: 'transparent',
+                    border: 'none',
+                    color: '#64748B',
+                    fontSize: '0.75rem',
+                    textDecoration: 'underline',
+                    cursor: 'pointer'
+                  }}
+                >
+                  {publicKey && assistantId ? 'Edit Vapi Key / ID' : 'Set Vapi Keys'}
+                </button>
+              </div>
             </div>
           )}
 
@@ -245,7 +283,6 @@ export default function VapiVoiceWidget({ isOpen, onClose }) {
 
           {callState === 'active' && (
             <div>
-              {/* Dynamic waveform based on audio activity */}
               <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '6px', height: '36px', marginBottom: '12px' }}>
                 {[14, 28, 40, 24, 34, 18, 30].map((h, i) => (
                   <span
@@ -286,7 +323,7 @@ export default function VapiVoiceWidget({ isOpen, onClose }) {
           )}
         </div>
 
-        {/* Configuration Modal (if keys missing) */}
+        {/* Configuration Modal (Persistent to localStorage) */}
         {showConfig && (
           <div
             style={{
@@ -298,7 +335,7 @@ export default function VapiVoiceWidget({ isOpen, onClose }) {
             }}
           >
             <p style={{ fontSize: '0.8rem', color: '#CBD5E1', marginBottom: '10px', fontWeight: 600 }}>
-              Enter your Vapi credentials (found in Vapi dashboard):
+              Enter your Vapi credentials (saved permanently in your browser):
             </p>
             <input
               type="text"
@@ -333,19 +370,19 @@ export default function VapiVoiceWidget({ isOpen, onClose }) {
               }}
             />
             <button
-              onClick={() => setShowConfig(false)}
+              onClick={handleSaveCredentials}
               style={{
-                padding: '6px 14px',
-                borderRadius: '6px',
+                padding: '8px 16px',
+                borderRadius: '8px',
                 background: '#10B981',
                 border: 'none',
                 color: '#FFFFFF',
-                fontSize: '0.8rem',
-                fontWeight: 600,
+                fontSize: '0.82rem',
+                fontWeight: 700,
                 cursor: 'pointer'
               }}
             >
-              Save Credentials
+              Save Permanently
             </button>
           </div>
         )}
